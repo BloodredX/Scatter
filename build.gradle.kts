@@ -51,7 +51,7 @@ subprojects {
 }
 
 paperweight {
-    serverProject = project(":forktest-server")
+    serverProject = project(":sakura-server")
 
     remapRepo = paperMavenPublicUrl
     decompileRepo = paperMavenPublicUrl
@@ -59,10 +59,10 @@ paperweight {
     usePaperUpstream(providers.gradleProperty("paperRef")) {
         withPaperPatcher {
             apiPatchDir = layout.projectDirectory.dir("patches/api")
-            apiOutputDir = layout.projectDirectory.dir("forktest-api")
+            apiOutputDir = layout.projectDirectory.dir("sakura-api")
 
             serverPatchDir = layout.projectDirectory.dir("patches/server")
-            serverOutputDir = layout.projectDirectory.dir("forktest-server")
+            serverOutputDir = layout.projectDirectory.dir("sakura-server")
 
         }
         patchTasks.register("generatedApi") {
@@ -79,7 +79,7 @@ paperweight {
 //
 
 tasks.generateDevelopmentBundle {
-    apiCoordinates = "com.example.paperfork:forktest-api"
+    apiCoordinates = "in.bloodred.sakura:sakura-api"
     libraryRepositories = listOf(
         "https://repo.maven.apache.org/maven2/",
         paperMavenPublicUrl,
