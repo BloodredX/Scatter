@@ -16,7 +16,7 @@ jobs:
         run: ./gradlew applyPatches --stacktrace
       - name: Rebuild Patches
         run: |
-         curl -o 0002-Petal-Async-Pathfinding.patch https://raw.githubusercontent.com/BloodredX/Straight/ver/1.21/0002-Petal-Async-Pathfinding.patch
+         curl -o 0002-Petal-Async-Pathfinding.patch https://raw.githubusercontent.com/BloodredX/Sakura/ver/1.21/0002-Petal-Async-Pathfinding.patch
          cd Sakura-Server
          git add <file>
          ./gradlew rebuildPatches
