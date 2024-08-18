@@ -46,8 +46,8 @@ out/
 # other stuff
 run/
 
-forktest-server
-forktest-api
+sakura-server
+sakura-api
 paper-api-generator
 
 !gradle/wrapper/gradle-wrapper.jar
