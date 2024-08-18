@@ -10,7 +10,7 @@ index 0000000000000000000000000000000000000000..d3ad7b430f4cd4ebc99f8f622819c56f
 --- /dev/null
 +++ b/src/main/java/dev/gideonwhite1029/purpurasync/path/AsyncPath.java
 @@ -0,0 +1,287 @@
-+package dev.gideonwhite1029.purpurasync.path;
++package in.bloodred.sakura.path;
 +
 +import net.minecraft.core.BlockPos;
 +import net.minecraft.world.entity.Entity;
