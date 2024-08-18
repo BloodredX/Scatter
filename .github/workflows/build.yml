@@ -36,7 +36,6 @@ jobs:
         uses: marvinpinto/action-automatic-releases@master
         with:
           title: "1.21.1 SAKURA"
-          automatic_release_tag: "1.21.1-stable"
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           files: "./Sakura-1.21.1.jar"
           prerelease: false
