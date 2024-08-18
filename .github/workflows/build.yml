@@ -31,16 +31,8 @@ jobs:
       - name: Rename this bad boy
         run: |
           mv build/libs/sakura-paperclip-1.21.1-R0.1-SNAPSHOT-mojmap.jar ./Sakura-1.21.1.jar
-      - name: Download JAR artifact
-        uses: actions/download-artifact@v3
+      - name: Result
+        uses: actions/upload-artifact@main
         with:
-          name: Sakura-JAR
+          name: Sakura 1.21.1
           path: ./Sakura-1.21.1.jar
-      - name: Upload as Release
-        if: github.event_name != 'pull_request'
-        uses: marvinpinto/action-automatic-releases@master
-        with:
-          title: "1.21.1 SAKURA"
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          files: "./Sakura-1.21.1.jar"
-          prerelease: false
