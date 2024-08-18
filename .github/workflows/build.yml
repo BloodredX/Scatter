@@ -28,3 +28,15 @@ jobs:
         run: ./gradlew applyPatches
       - name: Build
         run: ./gradlew createMojmapPaperclipJar
+      - name: Rename this bad boy
+        run: |
+          mv build/libs/sakura-paperclip-1.21.1-R0.1-SNAPSHOT-mojmap.jar ./Sakura-1.21.1.jar
+      - name: Release Leaf
+        if: github.event_name != 'pull_request'
+        uses: marvinpinto/action-automatic-releases@master
+        with:
+          title: "1.21.1 SAKURA"
+          automatic_release_tag: "1.21.1-stable"
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          files: "./Sakura-1.21.1.jar"
+          prerelease: false
