@@ -12,6 +12,8 @@ jobs:
           java-version: 21
       - name: Configure Git
         run: git config --global user.email "action@github.com" && git config --global user.name "Github Action"
+      - name: Rebuild patches
+        run: ./gradlew rebuildPatches --stacktrace
       - name: Apply patches
         run: ./gradlew applyPatches --stacktrace
       - name: Mojmap Build
