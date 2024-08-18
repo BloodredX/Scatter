@@ -12,12 +12,6 @@ jobs:
           java-version: 21
       - name: Configure Git
         run: git config --global user.email "action@github.com" && git config --global user.name "Github Action"
-      - name: Rebuild patches
-        run: |
-         cd Sakura-API
-         git add .
-         git commit -m "patches it"
-         ./gradlew rebuildPatches --stacktrace
       - name: Apply patches
         run: ./gradlew applyPatches --stacktrace
       - name: Mojmap Build
