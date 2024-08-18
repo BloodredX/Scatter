@@ -9,6 +9,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }
 
-rootProject.name = "forktest"
+rootProject.name = "sakura"
 
-include("forktest-api", "forktest-server")
+include("sakura-api", "sakura-server")
