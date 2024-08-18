@@ -1,4 +1,4 @@
-name: Build Straight
+name: Build Sakura
 on: [ push, pull_request ]
 jobs:
   build:
@@ -22,4 +22,4 @@ jobs:
         uses: actions/upload-artifact@main
         with:
           name: Sakura 1.21.1
-          path: ./Sakura1.21.1.jar
+          path: ./Sakura-1.21.1.jar
