@@ -14,22 +14,12 @@ jobs:
         run: git config --global user.email "action@github.com" && git config --global user.name "Github Action"
       - name: Apply patches
         run: ./gradlew applyPatches --stacktrace
-      - name: Rebuild Patches
-        run: |
-         curl -o 0002-Petal-Async-Pathfinding.patch https://raw.githubusercontent.com/BloodredX/Sakura/ver/1.21/0002-Petal-Async-Pathfinding.patch
-         ls
-         mv 0002-Petal-Async-Pathfinding.patch patches/server/
-         cd sakura-server
-         git add patches/server/0002-Petal-Async-Pathfinding.patch
-         git commit -m "Petal patch"
-         cd
-         ./gradlew rebuildPatches
-      #- name: Mojmap Build
-       # run: ./gradlew createMojmapPaperclipJar --stacktrace
-      #- name: Renaming
-       # run: mv build/libs/sakura-paperclip-1.21.1-R0.1-SNAPSHOT-mojmap.jar ./Sakura-1.21.1.jar
+      - name: Mojmap Build
+        run: ./gradlew createMojmapPaperclipJar --stacktrace
+      - name: Renaming
+        run: mv build/libs/sakura-paperclip-1.21.1-R0.1-SNAPSHOT-mojmap.jar ./Sakura-1.21.1.jar
       - name: Result
         uses: actions/upload-artifact@main
         with:
-          name: patches #Sakura 1.21.1
-          path: ./patches/server/*.patch #./Sakura-1.21.1.jar
+          name: Sakura 1.21.1
+          path: ./Sakura-1.21.1.jar
