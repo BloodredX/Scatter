@@ -13,7 +13,7 @@ repositories {
     maven(paperMavenPublicUrl) {
         content { onlyForConfigurations(configurations.paperclip.name) }
     }
-    maven("https://jitpack.io")
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
