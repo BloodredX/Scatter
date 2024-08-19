@@ -13,7 +13,12 @@ repositories {
     maven(paperMavenPublicUrl) {
         content { onlyForConfigurations(configurations.paperclip.name) }
     }
-    maven { url "https://jitpack.io" }
+    maven("https://oss.sonatype.org/content/groups/public/")
+    maven("https://ci.emc.gs/nexus/content/groups/aikar/")
+    maven("https://repo.aikar.co/content/groups/aikar")
+    maven("https://repo.md-5.net/content/repositories/releases/")
+    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
+    maven("https://jitpack.io")
 }
 
 dependencies {
