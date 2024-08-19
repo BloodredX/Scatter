@@ -19,7 +19,8 @@ jobs:
          curl -o 0002-Petal-Async-Pathfinding.patch https://raw.githubusercontent.com/BloodredX/Sakura/ver/1.21/0002-Petal-Async-Pathfinding.patch
          ls
          cd sakura-server
-         git add ../0002-Petal-Async-Pathfinding.patch
+         git add ./0002-Petal-Async-Pathfinding.patch
+         git commit -m "Petal patch"
          ./gradlew rebuildPatches
       #- name: Mojmap Build
        # run: ./gradlew createMojmapPaperclipJar --stacktrace
