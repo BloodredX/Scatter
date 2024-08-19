@@ -1,0 +1,266 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: BloodredX <bloodred.xhamster@gmail.com>
+Date: Tue, 9 Nov 2021 13:53:53 -0500
+Subject: [PATCH] Sakura Config and Command
+
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+index 755a1afd0aa36b627b3c7327d6b88806498ba85b..035ea1e17a4fec2e94c5cee02cf7ffbe88fd4ecf 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -47,6 +47,13 @@ dependencies {
+     runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.9.18")
+     runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.9.18")
+ 
++    // Sakura start
++    implementation("org.yaml:snakeyaml:1.32")
++    implementation ("me.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {
++        exclude(group="org.yaml", module="snakeyaml")
++    }
++    // Sakura end
++
+     testImplementation("io.github.classgraph:classgraph:4.8.47") // Paper - mob goal test
+     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
+     testImplementation("org.hamcrest:hamcrest:2.2")
+diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
+index 7620c72a4c243cbeea245203ce03a97cbfa7d922..b35a9f4c5f8960864c402ede8a51fb5ab9c4fcc0 100644
+--- a/src/main/java/co/aikar/timings/TimingsExport.java
++++ b/src/main/java/co/aikar/timings/TimingsExport.java
+@@ -240,7 +240,8 @@ public class TimingsExport extends Thread {
+         parent.put("config", createObject(
+             pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
+             pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
+-            pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null))
++            pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)), // Sakura
++            pair("sakura", mapAsJSON(in.bloodred.sakura.SakuraConfig.getConfigCopy(), null)) // Sakura
+         ));
+ 
+         new TimingsExport(listeners, parent, history).start();
+diff --git a/src/main/java/in/bloodred/sakura/SakuraCommand.java b/src/main/java/in/bloodred/sakura/SakuraCommand.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f74732f4ab6ea
+--- /dev/null
++++ b/src/main/java/in/bloodred/sakura/SakuraCommand.java
+@@ -0,0 +1,68 @@
++package in.bloodred.sakura;
++
++import java.io.IOException;
++import java.util.Collections;
++import java.util.List;
++import java.util.stream.Collectors;
++import java.util.stream.Stream;
++import net.kyori.adventure.text.Component;
++import net.kyori.adventure.text.format.NamedTextColor;
++import net.md_5.bungee.api.ChatColor;
++import net.minecraft.server.MinecraftServer;
++import org.bukkit.Bukkit;
++import org.bukkit.Location;
++import org.bukkit.command.Command;
++import org.bukkit.command.CommandSender;
++
++public class SakuraCommand extends Command {
++
++    public SakuraCommand() {
++        super("Sakura");
++        this.description = "Sakura related commands";
++        this.usageMessage = "/Sakura [reload | version]";
++        this.setPermission("bukkit.command.Sakura");
++    }
++    
++    public static void init() {
++        MinecraftServer.getServer().server.getCommandMap().register("Sakura", "Sakura", new SakuraCommand());
++    }
++
++    @Override
++    public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) throws IllegalArgumentException {
++        if (args.length == 1) {
++            return Stream.of("reload", "version")
++              .filter(arg -> arg.startsWith(args[0].toLowerCase()))
++              .collect(Collectors.toList());
++        }
++        return Collections.emptyList();
++    }
++
++    @Override
++    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
++        if (!testPermission(sender)) return true;
++        String prefix = ChatColor.of("#ffb7c5") + "" + ChatColor.BOLD + "Sakura » " + ChatColor.of("#448ee4");
++
++        if (args.length != 1) {
++            sender.sendMessage(prefix + "Usage: " + usageMessage);
++            args = new String[]{"version"};
++        }
++
++        if (args[0].equalsIgnoreCase("reload")) {
++            MinecraftServer console = MinecraftServer.getServer();
++            try {
++                SakuraConfig.load();
++            } catch (IOException e) {
++                sender.sendMessage(Component.text("Failed to reload.", NamedTextColor.RED));
++                e.printStackTrace();
++                return true;
++            }
++            console.server.reloadCount++;
++
++            Command.broadcastCommandMessage(sender, prefix + "Sakura configuration has been reloaded.");
++        } else if (args[0].equalsIgnoreCase("version")) {
++            Command.broadcastCommandMessage(sender, prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
++        }
++
++        return true;
++    }
++}
+diff --git a/src/main/java/in/bloodred/sakura/SakuraConfig.java b/src/main/java/in/bloodred/sakura/SakuraConfig.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827620c20ca
+--- /dev/null
++++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
+@@ -0,0 +1,135 @@
++package in.bloodred.sakura;
++
++import java.io.File;
++import java.io.IOException;
++import java.lang.reflect.Method;
++import java.lang.reflect.Modifier;
++import java.util.List;
++import net.minecraft.server.MinecraftServer;
++import org.apache.logging.log4j.Level;
++import org.bukkit.configuration.ConfigurationSection;
++import org.bukkit.configuration.MemoryConfiguration;
++import org.jetbrains.annotations.Nullable;
++import org.simpleyaml.configuration.comments.CommentType;
++import org.simpleyaml.configuration.file.YamlFile;
++import org.simpleyaml.exceptions.InvalidConfigurationException;
++
++public class SakuraConfig {
++	
++	private static final YamlFile config = new YamlFile();
++	private static int updates = 0;
++	
++	private static ConfigurationSection convertToBukkit(org.simpleyaml.configuration.ConfigurationSection section) {
++		ConfigurationSection newSection = new MemoryConfiguration();
++		for (String key : section.getKeys(false)) {
++			if (section.isConfigurationSection(key)) {
++				newSection.set(key, convertToBukkit(section.getConfigurationSection(key)));
++			} else {
++				newSection.set(key, section.get(key));
++			}
++		}
++		return newSection;
++	}
++	
++	public static ConfigurationSection getConfigCopy() {
++		return convertToBukkit(config);
++	}
++	
++	public static int getUpdates() {
++		return updates;
++	}
++	
++	public static void load() throws IOException {
++		File configFile = new File("sakura.yml");
++		
++		if (configFile.exists()) {
++			try {
++				config.load(configFile);
++			} catch (InvalidConfigurationException e) {
++				throw new IOException(e);
++			}
++		}
++		
++		getString("info.version", "1.0");
++		setComment("info",
++				"Sakura Configuration",
++				"Check out Sakura Host for maximum performance server hosting: https://Sakura.host",
++				"Join our Discord for support: https://discord.gg/reZw4vQV9H",
++				"Download new builds at https://ci.Sakura.host/job/Sakura");
++		
++		for (Method method : SakuraConfig.class.getDeclaredMethods()) {
++			if (Modifier.isStatic(method.getModifiers()) && Modifier.isPrivate(method.getModifiers()) && method.getParameterCount() == 0 &&
++					method.getReturnType() == Void.TYPE && !method.getName().startsWith("lambda")) {
++				method.setAccessible(true);
++				try {
++					method.invoke(null);
++				} catch (Throwable t) {
++					MinecraftServer.LOGGER.warn("Failed to load configuration option from " + method.getName(), t);
++				}
++			}
++		}
++		
++		updates++;
++		
++		config.save(configFile);
++	}
++	
++	private static void setComment(String key, String... comment) {
++		if (config.contains(key)) {
++			config.setComment(key, String.join("\n", comment), CommentType.BLOCK);
++		}
++	}
++	
++	private static void ensureDefault(String key, Object defaultValue, String... comment) {
++		if (!config.contains(key)) {
++			config.set(key, defaultValue);
++			config.setComment(key, String.join("\n", comment), CommentType.BLOCK);
++		}
++	}
++	
++	private static boolean getBoolean(String key, boolean defaultValue, String... comment) {
++		return getBoolean(key, null, defaultValue, comment);
++	}
++	
++	private static boolean getBoolean(String key, @Nullable String oldKey, boolean defaultValue, String... comment) {
++		ensureDefault(key, defaultValue, comment);
++		return config.getBoolean(key, defaultValue);
++	}
++	
++	private static int getInt(String key, int defaultValue, String... comment) {
++		return getInt(key, null, defaultValue, comment);
++	}
++	
++	private static int getInt(String key, @Nullable String oldKey, int defaultValue, String... comment) {
++		ensureDefault(key, defaultValue, comment);
++		return config.getInt(key, defaultValue);
++	}
++	
++	private static double getDouble(String key, double defaultValue, String... comment) {
++		return getDouble(key, null, defaultValue, comment);
++	}
++	
++	private static double getDouble(String key, @Nullable String oldKey, double defaultValue, String... comment) {
++		ensureDefault(key, defaultValue, comment);
++		return config.getDouble(key, defaultValue);
++	}
++	
++	private static String getString(String key, String defaultValue, String... comment) {
++		return getOldString(key, null, defaultValue, comment);
++	}
++	
++	private static String getOldString(String key, @Nullable String oldKey, String defaultValue, String... comment) {
++		ensureDefault(key, defaultValue, comment);
++		return config.getString(key, defaultValue);
++	}
++	
++	private static List<String> getStringList(String key, List<String> defaultValue, String... comment) {
++		return getStringList(key, null, defaultValue, comment);
++	}
++	
++	private static List<String> getStringList(String key, @Nullable String oldKey, List<String> defaultValue, String... comment) {
++		ensureDefault(key, defaultValue, comment);
++		return config.getStringList(key);
++	}
++	
++}
+diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+index dd56c8e041116ef3602a9f89c998c8208ab89b51..fb57a87d3d1e77da8fa2fba5298f7f651a0c83e0 100644
+--- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
++++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
+@@ -239,6 +239,8 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         this.server.spark.registerCommandBeforePlugins(this.server); // Paper - spark
+         com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
+         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
++        in.bloodred.sakura.SakuraConfig.load(); // Sakura
++        in.bloodred.sakura.SakuraCommand.init(); // Sakura
+ 
+         this.setPvpAllowed(dedicatedserverproperties.pvp);
+         this.setFlightAllowed(dedicatedserverproperties.allowFlight);
