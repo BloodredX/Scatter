@@ -21,8 +21,6 @@ index 5b7fe3d6c2169d07b79a0937e889fc847962fdfe..a047bcbb9aa47d094f3daeed6708b191
 --- a/src/main/java/in/bloodred/sakura/SakuraConfig.java
 +++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
 @@ -172,4 +172,13 @@ public class SakuraConfig {
- 				"This can be overridden per-player with the permission pufferfish.usebooks");
- 	}
  	
 +	public static boolean enableSuffocationOptimization;
 +	private static void suffocationOptimization() {
