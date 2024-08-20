@@ -1,122 +1,69 @@
+import io.papermc.paperweight.util.constants.PAPERCLIP_CONFIG
+
 plugins {
     java
-    `maven-publish`
-
-    // In general, keep this version in sync with upstream. Sometimes a newer version than upstream might work, but an older version is extremely likely to break.
+    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
     id("io.papermc.paperweight.patcher") version "1.7.1"
 }
 
-val paperMavenPublicUrl = "https://repo.papermc.io/repository/maven-public/"
-
 repositories {
     mavenCentral()
-    maven("https://oss.sonatype.org/content/groups/public/")
-    maven("https://ci.emc.gs/nexus/content/groups/aikar/")
-    maven("https://repo.aikar.co/content/groups/aikar")
-    maven("https://repo.md-5.net/content/repositories/releases/")
-    maven("https://hub.spigotmc.org/nexus/content/groups/public/")
-    maven("https://jitpack.io")
-    maven(paperMavenPublicUrl) {
-        content { onlyForConfigurations(configurations.paperclip.name) }
+    maven("https://papermc.io/repo/repository/maven-public/") {
+        content { onlyForConfigurations(PAPERCLIP_CONFIG) }
     }
 }
 
 dependencies {
-    remapper("net.fabricmc:tiny-remapper:0.10.3:fat") // Must be kept in sync with upstream
-    decompiler("org.vineflower:vineflower:1.10.1") // Must be kept in sync with upstream
-    paperclip("io.papermc:paperclip:3.0.3") // You probably want this to be kept in sync with upstream
-}
-
-allprojects {
-    apply(plugin = "java")
-    apply(plugin = "maven-publish")
-
-    java {
-        toolchain {
-            languageVersion = JavaLanguageVersion.of(21)
-        }
-    }
+    remapper("net.fabricmc:tiny-remapper:0.10.3:fat")
+    decompiler("org.vineflower:vineflower:1.10.1")
+    paperclip("io.papermc:paperclip:3.0.3")
 }
 
 subprojects {
-    tasks.withType<JavaCompile> {
-        options.encoding = Charsets.UTF_8.name()
-        options.release = 21
+    apply(plugin = "java")
+
+    java {
+        toolchain { languageVersion.set(JavaLanguageVersion.of(21)) }
     }
-    tasks.withType<Javadoc> {
-        options.encoding = Charsets.UTF_8.name()
-    }
-    tasks.withType<ProcessResources> {
-        filteringCharset = Charsets.UTF_8.name()
+
+    tasks.withType<JavaCompile>().configureEach {
+        options.encoding = "UTF-8"
+        options.release.set(21)
     }
 
     repositories {
+        mavenLocal()
         mavenCentral()
-        maven(paperMavenPublicUrl)
+        maven("https://oss.sonatype.org/content/groups/public/")
+        maven("https://papermc.io/repo/repository/maven-public/")
+        maven("https://ci.emc.gs/nexus/content/groups/aikar/")
+        maven("https://repo.aikar.co/content/groups/aikar")
+        maven("https://repo.md-5.net/content/repositories/releases/")
+        maven("https://hub.spigotmc.org/nexus/content/groups/public/")
+        maven("https://jitpack.io")
     }
 }
 
 paperweight {
-    serverProject = project(":sakura-server")
+    serverProject.set(project(":sakura-server"))
 
-    remapRepo = paperMavenPublicUrl
-    decompileRepo = paperMavenPublicUrl
+    remapRepo.set("https://maven.fabricmc.net/")
+    decompileRepo.set("https://files.minecraftforge.net/maven/")
 
     usePaperUpstream(providers.gradleProperty("paperRef")) {
         withPaperPatcher {
-            apiPatchDir = layout.projectDirectory.dir("patches/api")
-            apiOutputDir = layout.projectDirectory.dir("sakura-api")
+            apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
+            serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
 
-            serverPatchDir = layout.projectDirectory.dir("patches/server")
-            serverOutputDir = layout.projectDirectory.dir("sakura-server")
-
+            apiOutputDir.set(layout.projectDirectory.dir("sakura-api"))
+            serverOutputDir.set(layout.projectDirectory.dir("sakura-server"))
         }
+
         patchTasks.register("generatedApi") {
             isBareDirectory = true
             upstreamDirPath = "paper-api-generator/generated"
-            patchDir = layout.projectDirectory.dir("patches/generatedApi")
+            patchDir = layout.projectDirectory.dir("patches/generated-api")
             outputDir = layout.projectDirectory.dir("paper-api-generator/generated")
-        }
-    }
-}
-
-//
-// Everything below here is optional if you don't care about publishing API or dev bundles to your repository
-//
-
-tasks.generateDevelopmentBundle {
-    apiCoordinates = "in.bloodred.sakura:sakura-api"
-    libraryRepositories = listOf(
-        "https://repo.maven.apache.org/maven2/",
-        paperMavenPublicUrl,
-        // "https://my.repo/", // This should be a repo hosting your API (in this example, 'com.example.paperfork:forktest-api')
-    )
-}
-
-allprojects {
-    // Publishing API:
-    // ./gradlew :ForkTest-API:publish[ToMavenLocal]
-    publishing {
-        repositories {
-            maven {
-                name = "myRepoSnapshots"
-                url = uri("https://my.repo/")
-                // See Gradle docs for how to provide credentials to PasswordCredentials
-                // https://docs.gradle.org/current/samples/sample_publishing_credentials.html
-                credentials(PasswordCredentials::class)
-            }
-        }
-    }
-}
-
-publishing {
-    // Publishing dev bundle:
-    // ./gradlew publishDevBundlePublicationTo(MavenLocal|MyRepoSnapshotsRepository) -PpublishDevBundle
-    if (project.hasProperty("publishDevBundle")) {
-        publications.create<MavenPublication>("devBundle") {
-            artifact(tasks.generateDevelopmentBundle) {
-                artifactId = "dev-bundle"
-            }
         }
     }
 }
