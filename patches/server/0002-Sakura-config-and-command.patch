@@ -14,7 +14,7 @@ index 755a1afd0aa36b627b3c7327d6b88806498ba85b..035ea1e17a4fec2e94c5cee02cf7ffbe
  
 +    // Sakura start
 +    implementation("org.yaml:snakeyaml:1.32")
-+    implementation com.github.Carleslc.Simple-YAML:Simple-Yaml:1.8.4") {
++    implementation("me.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {
 +        exclude(group="org.yaml", module="snakeyaml")
 +    }
 +    // Sakura end
