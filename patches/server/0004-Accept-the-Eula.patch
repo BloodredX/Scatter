@@ -28,5 +28,5 @@ index 4ef8eaad4485a2ee920f80556f9dda04e59d2b2a..4565aea8911f2fbd0dc71664f30b77dd
 +
              if (!eula.hasAgreedToEULA() && !eulaAgreed) { // Spigot
 -                Main.LOGGER.info("You need to agree to the EULA in order to run the server. Go to eula.txt for more info.");
-+                Main.LOGGER.info("Accept EULA to run Sakura. Go to eula.txt > Find "eula=false > Change the boolean false to true.");
++                Main.LOGGER.info("Accept EULA to run Sakura. Go to eula.txt → Find 'eula=false' → Change the boolean false to true.");
                  return;
