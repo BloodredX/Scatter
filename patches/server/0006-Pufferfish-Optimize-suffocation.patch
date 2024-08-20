@@ -33,7 +33,6 @@ index c84ef666a896dc0d154610e1e6360ca5def739fd..a047bcbb9aa47d094f3daeed6708b191
 +				"configuration option if the vanilla deviation is undesirable.");
 +	}
 +	
-+ setComment("optimization", "Sakura's main configuration", "These optimization doesn't change any gameplay experience", "So you can trust Sakura");
  }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 index fe435d4a387bb28be6831cec0c8bb0a7c8b603a4..e0be7a3744b3edf5e219562f959b7040b8b21ac1 100644
