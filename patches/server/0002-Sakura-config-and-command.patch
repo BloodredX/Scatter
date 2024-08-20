@@ -64,7 +64,7 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +        super("Sakura");
 +        this.description = "Sakura related commands";
 +        this.usageMessage = "/Sakura [reload | version]";
-+        this.setPermission("bukkit.command.sakura");
++        this.setPermission("bukkit.command.Sakura");
 +    }
 +    
 +    public static void init() {
