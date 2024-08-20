@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: BloodredX <bloodred.xhamster@gmail.com>
+Date: Mon, 27 Jun 2022 19:17:06 +0300
+Subject: [PATCH] Accept the EULA
+
+
+diff --git a/src/main/java/net/minecraft/server/Main.java b/src/main/java/net/minecraft/server/Main.java
+index 4ef8eaad4485a2ee920f80556f9dda04e59d2b2a..4565aea8911f2fbd0dc71664f30b77dd0c621aa9 100644
+--- a/src/main/java/net/minecraft/server/Main.java
++++ b/src/main/java/net/minecraft/server/Main.java
+@@ -163,6 +163,20 @@ public class Main {
+                 System.err.println( "If you do not agree to the above EULA please stop your server and remove this flag immediately." );
+             }
+             // Spigot End
++
++            // Sakura start - accepts the eula.txt
++            if (!eula.hasAgreedToEULA()) {
++                Main.LOGGER.warn("Automatically accepting Mojang's EULA. Stop using Sakura only if you don't accept EULA of Mojang.");
++                Main.LOGGER.warn("Note: this is a persistent change and will be saved in eula.txt since now.");
++                try (java.io.OutputStream outputStream = java.nio.file.Files.newOutputStream(path2)) {
++                    var properties = new java.util.Properties();
++                    properties.setProperty("eula", "true");
++                    properties.store(outputStream, null);
++                }
++                eulaAgreed = true;
++            }
++            // Sakura end
++
+             if (!eula.hasAgreedToEULA() && !eulaAgreed) { // Spigot
+-                Main.LOGGER.info("You need to agree to the EULA in order to run the server. Go to eula.txt for more info.");
++                Main.LOGGER.info("Accept EULA to run Sakura. Go to eula.txt > Find "eula=false > Change the boolean false to true.");
+                 return;
