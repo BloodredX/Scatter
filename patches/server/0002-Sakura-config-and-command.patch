@@ -64,7 +64,7 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +        super("Sakura");
 +        this.description = "Sakura related commands";
 +        this.usageMessage = "/Sakura [reload | version]";
-+        this.setPermission("bukkit.command.Sakura");
++        this.setPermission("bukkit.command.sakura");
 +    }
 +    
 +    public static void init() {
@@ -84,7 +84,7 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +    @Override
 +    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
 +        if (!testPermission(sender)) return true;
-+        String prefix = ChatColor.of("#ffb7c5") + "" + ChatColor.BOLD + "Sakura Â» " + ChatColor.of("#448ee4");
++        String prefix = ChatColor.of("#ffb7c5") + "" + ChatColor.BOLD + "Sakura » " + ChatColor.of("#448ee4");
 +
 +        if (args.length != 1) {
 +            sender.sendMessage(prefix + "Usage: " + usageMessage);
@@ -171,9 +171,8 @@ index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827
 +		getString("info.version", "1.0");
 +		setComment("info",
 +				"Sakura Configuration",
-+				"Check out Sakura Host for maximum performance server hosting: https://Sakura.host",
-+				"Join our Discord for support: https://discord.gg/reZw4vQV9H",
-+				"Download new builds at https://ci.Sakura.host/job/Sakura");
++				"Join our Discord for support: https://dsc.gg/kmds",
++				"Download new builds at https://github.com/BloodredX/Sakura");
 +		
 +		for (Method method : SakuraConfig.class.getDeclaredMethods()) {
 +			if (Modifier.isStatic(method.getModifiers()) && Modifier.isPrivate(method.getModifiers()) && method.getParameterCount() == 0 &&
