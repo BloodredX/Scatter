@@ -129,7 +129,7 @@ index 0000000000000000000000000000000000000000..f425005ac93ab78f967b65bee14f7278
 +    }
 +}
 diff --git a/src/main/java/in/bloodred/sakura/SakuraConfig.java b/src/main/java/in/bloodred/sakura/SakuraConfig.java
-index 357e8265e8f262798b3f4e5572dfcad039030fa4..7094f4d3845b5f616c0257eaf6ec8e456106646d 100644
+index deb52c185705c4b4186c7bae02f2a827620c20ca..7094f4d3845b5f616c0257eaf6ec8e456106646d 100644
 --- a/src/main/java/in/bloodred/sakura/SakuraConfig.java
 +++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
 @@ -130,4 +130,38 @@ public class SakuraConfig {
