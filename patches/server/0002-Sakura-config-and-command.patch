@@ -172,6 +172,7 @@ index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827
 +		setComment("info",
 +				"Sakura Configuration",
 +				"Join our Discord for support: https://dsc.gg/kmds",
++                   "Sakura is still in development so basically if you face error then Alert asap"
 +				"Download new builds at https://github.com/BloodredX/Sakura");
 +		
 +		for (Method method : SakuraConfig.class.getDeclaredMethods()) {
