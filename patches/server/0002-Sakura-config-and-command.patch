@@ -249,40 +249,6 @@ index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827
 +		ensureDefault(key, defaultValue, comment);
 +		return config.getStringList(key);
 +	}
-+
-+    public static boolean playerCollisions = true;
-+    public static boolean animalCollisions = true;
-+    public static boolean ambientCollisions = true;
-+    public static boolean monsterCollisions = true;
-+    public static boolean villagerCollisions = true;
-+    public static boolean pillagerCollisions = true;
-+    public static boolean ironGolemCollisions = true;
-+    public static boolean miscCollisions = true;
-+    public static boolean itemCollisions = true;
-+    public static boolean waterAmbientCollisions = true;
-+    public static boolean waterCreatureCillisions = true;
-+    public static boolean undergroundWaterCreatureCollisions = true;
-+    public static boolean axolotlCollisions = true;
-+    public static boolean allCollisionsEnabled = false;
-+    private static void collisionSettings() {
-+        playerCollisions = getBoolean("collisions.players", pillagerCollisions);
-+        animalCollisions = getBoolean("collisions.animals", animalCollisions);
-+        ambientCollisions = getBoolean("collisions.ambient", ambientCollisions);
-+        monsterCollisions = getBoolean("collisions.monsters", monsterCollisions);
-+        villagerCollisions = getBoolean("collisions.villagers", villagerCollisions);
-+        pillagerCollisions = getBoolean("collisions.pillagers", pillagerCollisions);
-+        ironGolemCollisions = getBoolean("collisions.iron-golems", ironGolemCollisions);
-+        miscCollisions = getBoolean("collisions.misc", miscCollisions);
-+        itemCollisions = getBoolean("collisions.items", itemCollisions);
-+        waterAmbientCollisions = getBoolean("collisions.water-ambient", waterAmbientCollisions);
-+        waterCreatureCillisions = getBoolean("collisions.water-creatures", waterCreatureCillisions);
-+        undergroundWaterCreatureCollisions = getBoolean("collisions.underground-water-creatures", undergroundWaterCreatureCollisions);
-+        axolotlCollisions = getBoolean("collisions.axolotls", ambientCollisions);
-+
-+        allCollisionsEnabled = playerCollisions && animalCollisions && ambientCollisions && monsterCollisions
-+            && villagerCollisions && pillagerCollisions && ironGolemCollisions && miscCollisions && itemCollisions
-+            && waterAmbientCollisions && waterCreatureCillisions && undergroundWaterCreatureCollisions && axolotlCollisions;
-+    }
 +	
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
