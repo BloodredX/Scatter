@@ -128,51 +128,6 @@ index 0000000000000000000000000000000000000000..f425005ac93ab78f967b65bee14f7278
 +        });
 +    }
 +}
-diff --git a/src/main/java/in/bloodred/sakura/SakuraConfig.java b/src/main/java/in/bloodred/sakura/SakuraConfig.java
-index deb52c185705c4b4186c7bae02f2a827620c20ca..7094f4d3845b5f616c0257eaf6ec8e456106646d 100644
---- a/src/main/java/in/bloodred/sakura/SakuraConfig.java
-+++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
-@@ -128,6 +128,40 @@ public class SakuraConfig {
-	private static List<String> getStringList(String key, @Nullable String oldKey, List<String> defaultValue, String... comment) {
-		ensureDefault(key, defaultValue, comment);
-		return config.getStringList(key);
- 	}
- 	
-+
-+    public static boolean playerCollisions = true;
-+    public static boolean animalCollisions = true;
-+    public static boolean ambientCollisions = true;
-+    public static boolean monsterCollisions = true;
-+    public static boolean villagerCollisions = true;
-+    public static boolean pillagerCollisions = true;
-+    public static boolean ironGolemCollisions = true;
-+    public static boolean miscCollisions = true;
-+    public static boolean itemCollisions = true;
-+    public static boolean waterAmbientCollisions = true;
-+    public static boolean waterCreatureCillisions = true;
-+    public static boolean undergroundWaterCreatureCollisions = true;
-+    public static boolean axolotlCollisions = true;
-+    public static boolean allCollisionsEnabled = false;
-+    private static void collisionSettings() {
-+        playerCollisions = getBoolean("collisions.players", pillagerCollisions);
-+        animalCollisions = getBoolean("collisions.animals", animalCollisions);
-+        ambientCollisions = getBoolean("collisions.ambient", ambientCollisions);
-+        monsterCollisions = getBoolean("collisions.monsters", monsterCollisions);
-+        villagerCollisions = getBoolean("collisions.villagers", villagerCollisions);
-+        pillagerCollisions = getBoolean("collisions.pillagers", pillagerCollisions);
-+        ironGolemCollisions = getBoolean("collisions.iron-golems", ironGolemCollisions);
-+        miscCollisions = getBoolean("collisions.misc", miscCollisions);
-+        itemCollisions = getBoolean("collisions.items", itemCollisions);
-+        waterAmbientCollisions = getBoolean("collisions.water-ambient", waterAmbientCollisions);
-+        waterCreatureCillisions = getBoolean("collisions.water-creatures", waterCreatureCillisions);
-+        undergroundWaterCreatureCollisions = getBoolean("collisions.underground-water-creatures", undergroundWaterCreatureCollisions);
-+        axolotlCollisions = getBoolean("collisions.axolotls", ambientCollisions);
-+
-+        allCollisionsEnabled = playerCollisions && animalCollisions && ambientCollisions && monsterCollisions
-+            && villagerCollisions && pillagerCollisions && ironGolemCollisions && miscCollisions && itemCollisions
-+            && waterAmbientCollisions && waterCreatureCillisions && undergroundWaterCreatureCollisions && axolotlCollisions;
-+    }
- }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 index cb03e9210eeb80cefbfe812d181edbdbc73055bc..265f55f4281a0b71a69cdbe7083bbf32a12ccff0 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
