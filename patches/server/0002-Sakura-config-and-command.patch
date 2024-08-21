@@ -115,7 +115,7 @@ new file mode 100644
 index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827620c20ca
 --- /dev/null
 +++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
-@@ -0,0 +1,173 @@
+@@ -0,0 +1,135 @@
 +package in.bloodred.sakura;
 +
 +import java.io.File;
