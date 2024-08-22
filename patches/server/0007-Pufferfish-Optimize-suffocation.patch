@@ -17,7 +17,7 @@ but is so much cheaper than the suffocation check that it's worth
 keeping it.
 
 diff --git a/src/main/java/in/bloodred/sakura/SakuraConfig.java b/src/main/java/in/bloodred/sakura/SakuraConfig.java
-index deb52c185705c4b4186c7bae02f2a827620c20ca..a047bcbb9aa47d094f3daeed6708b1918b4904de 100644
+index 5b7fe3d6c2169d07b79a0937e889fc847962fdfe..a047bcbb9aa47d094f3daeed6708b1918b4904de 100644
 --- a/src/main/java/in/bloodred/sakura/SakuraConfig.java
 +++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
 @@ -163,4 +163,13 @@ public class SakuraConfig {
