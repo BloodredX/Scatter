@@ -45,7 +45,7 @@ subprojects {
 }
 
 paperweight {
-    serverProject.set(project(":sakura-server"))
+    serverProject.set(project(":scatter-server"))
 
     remapRepo.set("https://maven.fabricmc.net/")
     decompileRepo.set("https://files.minecraftforge.net/maven/")
@@ -55,8 +55,8 @@ paperweight {
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
             serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
 
-            apiOutputDir.set(layout.projectDirectory.dir("sakura-api"))
-            serverOutputDir.set(layout.projectDirectory.dir("sakura-server"))
+            apiOutputDir.set(layout.projectDirectory.dir("scatter-api"))
+            serverOutputDir.set(layout.projectDirectory.dir("scatter-server"))
         }
 
         patchTasks.register("generatedApi") {
