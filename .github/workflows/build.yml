@@ -1,4 +1,4 @@
-name: Build Sakura
+name: Build Scatter
 on: [ push, pull_request ]
 jobs:
   build:
@@ -17,9 +17,9 @@ jobs:
       - name: Mojmap Build
         run: ./gradlew createMojmapPaperclipJar --stacktrace
       - name: Renaming
-        run: mv build/libs/sakura-paperclip-1.21.1-R0.1-SNAPSHOT-mojmap.jar ./Sakura-1.21.1.jar
+        run: mv build/libs/scatter-paperclip-1.21.1-R0.1-SNAPSHOT-mojmap.jar ./Scatter-1.21.1.jar
       - name: Result
         uses: actions/upload-artifact@main
         with:
-          name: Sakura 1.21.1
-          path: ./Sakura-1.21.1.jar
+          name: Scatter 1.21.1
+          path: ./Scatter-1.21.1.jar
