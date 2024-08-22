@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: BloodredX <bloodred.xhamster@gmail.com>
 Date: Tue, 9 Nov 2021 13:53:53 -0500
-Subject: [PATCH] Sakura Config and Command
+Subject: [PATCH] Scatter Config and Command
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
@@ -31,18 +31,18 @@ index 7620c72a4c243cbeea245203ce03a97cbfa7d922..b35a9f4c5f8960864c402ede8a51fb5a
              pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
              pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
 -            pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null))
-+            pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)), // Sakura
-+            pair("sakura", mapAsJSON(in.bloodred.sakura.SakuraConfig.getConfigCopy(), null)) // Sakura
++            pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)), // Scatter
++            pair("scatter", mapAsJSON(in.bloodred.scatter.ScatterConfig.getConfigCopy(), null)) // Scatter
          ));
  
          new TimingsExport(listeners, parent, history).start();
-diff --git a/src/main/java/in/bloodred/sakura/SakuraCommand.java b/src/main/java/in/bloodred/sakura/SakuraCommand.java
+diff --git a/src/main/java/in/bloodred/sakura/SakuraCommand.java b/src/main/java/in/bloodred/scatter/ScatterCommand.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f74732f4ab6ea
 --- /dev/null
-+++ b/src/main/java/in/bloodred/sakura/SakuraCommand.java
++++ b/src/main/java/in/bloodred/scatter/ScatterCommand.java
 @@ -0,0 +1,68 @@
-+package in.bloodred.sakura;
++package in.bloodred.scatter;
 +
 +import java.io.IOException;
 +import java.util.Collections;
@@ -58,17 +58,17 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +import org.bukkit.command.Command;
 +import org.bukkit.command.CommandSender;
 +
-+public class SakuraCommand extends Command {
++public class ScatterCommand extends Command {
 +
 +    public SakuraCommand() {
-+        super("Sakura");
-+        this.description = "Sakura related commands";
-+        this.usageMessage = "/Sakura [reload | version]";
-+        this.setPermission("bukkit.command.Sakura");
++        super("scatter");
++        this.description = "Scatter related commands";
++        this.usageMessage = "/scatter [reload | version]";
++        this.setPermission("bukkit.command.scatter");
 +    }
 +    
 +    public static void init() {
-+        MinecraftServer.getServer().server.getCommandMap().register("Sakura", "Sakura", new SakuraCommand());
++        MinecraftServer.getServer().server.getCommandMap().register("scatter", "scatter", new ScatterCommand());
 +    }
 +
 +    @Override
@@ -110,13 +110,13 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +        return true;
 +    }
 +}
-diff --git a/src/main/java/in/bloodred/sakura/SakuraConfig.java b/src/main/java/in/bloodred/sakura/SakuraConfig.java
+diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827620c20ca
 --- /dev/null
-+++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
++++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 @@ -0,0 +1,135 @@
-+package in.bloodred.sakura;
++package in.bloodred.scatter;
 +
 +import java.io.File;
 +import java.io.IOException;
@@ -158,7 +158,7 @@ index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827
 +	}
 +	
 +	public static void load() throws IOException {
-+		File configFile = new File("sakura.yml");
++		File configFile = new File("scatter.yml");
 +		
 +		if (configFile.exists()) {
 +			try {
@@ -170,12 +170,12 @@ index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827
 +		
 +		getString("info.version", "1.0");
 +		setComment("info",
-+				"Sakura Configuration",
-+				"If you face any error, https://github.com/BloodredX/Sakura/issues",
++				"Scatter Configuration",
++				"If you face any error, https://github.com/BloodredX/Scatter/issues",
 +				"Join our Discord for support: https://dsc.gg/kmds",
-+				"Download new builds at https://github.com/BloodredX/Sakura");
++				"Download new builds at https://github.com/BloodredX/Scatter");
 +		
-+		for (Method method : SakuraConfig.class.getDeclaredMethods()) {
++		for (Method method : ScatterConfig.class.getDeclaredMethods()) {
 +			if (Modifier.isStatic(method.getModifiers()) && Modifier.isPrivate(method.getModifiers()) && method.getParameterCount() == 0 &&
 +					method.getReturnType() == Void.TYPE && !method.getName().startsWith("lambda")) {
 +				method.setAccessible(true);
@@ -259,8 +259,8 @@ index dd56c8e041116ef3602a9f89c998c8208ab89b51..fb57a87d3d1e77da8fa2fba5298f7f65
          this.server.spark.registerCommandBeforePlugins(this.server); // Paper - spark
          com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
-+        in.bloodred.sakura.SakuraConfig.load(); // Sakura
-+        in.bloodred.sakura.SakuraCommand.init(); // Sakura
++        in.bloodred.scatter.ScatterConfig.load(); // Scatter
++        in.bloodred.scatter.ScatterCommand.init(); // Scatter
  
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
