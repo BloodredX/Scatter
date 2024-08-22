@@ -4,11 +4,11 @@ Date: Tue, 9 Nov 2021 14:08:14 -0500
 Subject: [PATCH] Add Sentry
 
 
-diff --git a/src/main/java/in/bloodred/sakura/SakuraConfig.java b/src/main/java/in/bloodred/sakura/SakuraConfig.java
+diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 index d1a8bfb29817d2b73689713b4d5f04d7f2c0eaf4..5b7fe3d6c2169d07b79a0937e889fc847962fdfe 100644
---- a/src/main/java/in/bloodred/sakura/SakuraConfig.java
-+++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
-@@ -152,4 +152,15 @@ public class SakuraConfig {
+--- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
++++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
+@@ -152,4 +152,15 @@ public class ScatterConfig {
  		return config.getStringList(key);
  	}
  	
@@ -19,18 +19,18 @@ index d1a8bfb29817d2b73689713b4d5f04d7f2c0eaf4..5b7fe3d6c2169d07b79a0937e889fc84
 +		
 +		sentryDsn = sentryEnvironment == null ? sentryConfig : sentryEnvironment;
 +		if (sentryDsn != null && !sentryDsn.isBlank()) {
-+			in.bloodred.sakura.sentry.SentryManager.init();
++			in.bloodred.scatter.sentry.SentryManager.init();
 +		}
 +	}
 +	
  }
-diff --git a/src/main/java/in/bloodred/sakura/sentry/PufferfishSentryAppender.java b/src/main/java/in/bloodred/sakura/sentry/PufferfishSentryAppender.java
+diff --git a/src/main/java/in/bloodred/scatter/sentry/PufferfishSentryAppender.java b/src/main/java/in/bloodred/scatter/sentry/PufferfishSentryAppender.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..731ef11c7a025ae95ed8a757b530d834733d0621
 --- /dev/null
-+++ b/src/main/java/in/bloodred/sakura/sentry/PufferfishSentryAppender.java
++++ b/src/main/java/in/bloodred/scatter/sentry/PufferfishSentryAppender.java
 @@ -0,0 +1,135 @@
-+package in.bloodred.sakura.sentry;
++package in.bloodred.scatter.sentry;
 +
 +import com.google.common.reflect.TypeToken;
 +import com.google.gson.Gson;
@@ -165,15 +165,15 @@ index 0000000000000000000000000000000000000000..731ef11c7a025ae95ed8a757b530d834
 +		
 +	}
 +}
-diff --git a/src/main/java/in/bloodred/sakura/sentry/SentryManager.java b/src/main/java/in/bloodred/sakura/sentry/SentryManager.java
+diff --git a/src/main/java/in/bloodred/scatter/sentry/SentryManager.java b/src/main/java/in/bloodred/scatter/sentry/SentryManager.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..1b29210ad0bbb4ada150f23357f0c80d331c996d
 --- /dev/null
-+++ b/src/main/java/in/bloodred/sakura/sentry/SentryManager.java
++++ b/src/main/java/in/bloodred/scatter/sentry/SentryManager.java
 @@ -0,0 +1,40 @@
-+package in.bloodred.sakura.sentry;
++package in.bloodred.scatter.sentry;
 +
-+import in.bloodred.sakura.SakuraConfig;
++import in.bloodred.scatter.ScatterConfig;
 +import io.sentry.Sentry;
 +import org.apache.logging.log4j.LogManager;
 +import org.apache.logging.log4j.Logger;
@@ -196,7 +196,7 @@ index 0000000000000000000000000000000000000000..1b29210ad0bbb4ada150f23357f0c80d
 +			initialized = true;
 +			
 +			Sentry.init(options -> {
-+				options.setDsn(SakuraConfig.sentryDsn);
++				options.setDsn(ScatterConfig.sentryDsn);
 +				options.setMaxBreadcrumbs(100);
 +			});
 +			
