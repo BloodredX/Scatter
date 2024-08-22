@@ -46,8 +46,8 @@ out/
 # other stuff
 run/
 
-sakura-server
-sakura-api
+scatter-server
+scatter-api
 paper-api-generator
 
 !gradle/wrapper/gradle-wrapper.jar
