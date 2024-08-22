@@ -16,11 +16,11 @@ damage in the first place. This check doesn't improve performance much
 but is so much cheaper than the suffocation check that it's worth
 keeping it.
 
-diff --git a/src/main/java/in/bloodred/sakura/SakuraConfig.java b/src/main/java/in/bloodred/sakura/SakuraConfig.java
+diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 index 5b7fe3d6c2169d07b79a0937e889fc847962fdfe..a047bcbb9aa47d094f3daeed6708b1918b4904de 100644
---- a/src/main/java/in/bloodred/sakura/SakuraConfig.java
-+++ b/src/main/java/in/bloodred/sakura/SakuraConfig.java
-@@ -163,4 +163,13 @@ public class SakuraConfig {
+--- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
++++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
+@@ -163,4 +163,13 @@ public class ScatterConfig {
  		}
  	}
  	
@@ -60,7 +60,7 @@ index fe435d4a387bb28be6831cec0c8bb0a7c8b603a4..e0be7a3744b3edf5e219562f959b7040
 +    }
 +
 +    public boolean shouldCheckForSuffocation() {
-+        return !in.bloodred.sakura.SakuraConfig.enableSuffocationOptimization || (tickCount % 10 == 0 && couldPossiblyBeHurt(1.0F));
++        return !in.bloodred.scatter.ScatterConfig.enableSuffocationOptimization || (tickCount % 10 == 0 && couldPossiblyBeHurt(1.0F));
 +    }
 +    // Pufferfish end
 +
