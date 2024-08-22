@@ -16,13 +16,13 @@ index 540fe7e2c110e79c3742f229b3ed8c54b101d260..d8b6647f83b66367e34bc141da6e328d
  
      implementation("org.ow2.asm:asm:9.7")
      implementation("org.ow2.asm:asm-commons:9.7")
-diff --git a/src/main/java/in/bloodred/sakura/sentry/SentryContext.java b/src/main/java/in/bloodred/sakura/sentry/SentryContext.java
+diff --git a/src/main/java/in/bloodred/scatter/sentry/SentryContext.java b/src/main/java/in/bloodred/scatter/sentry/SentryContext.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..10310fdd53de28efb8a8250f6d3b0c8eb08fb68a
 --- /dev/null
-+++ b/src/main/java/in/bloodred/sakura/sentry/SentryContext.java
++++ b/src/main/java/in/bloodred/scatter/sentry/SentryContext.java
 @@ -0,0 +1,161 @@
-+package in.bloodred.sakura.sentry;
++package in.bloodred.scatter.sentry;
 +
 +import com.google.gson.Gson;
 +import java.lang.reflect.Field;
@@ -191,9 +191,9 @@ index 003bece642b682985625db93cad93026352bfc66..e8ba4f1108f2548a487877027e37d81f
  
      // Paper start
      private void handlePluginException(String msg, Throwable ex, Plugin plugin) {
-+        in.bloodred.sakura.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
++        in.bloodred.scatter.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
          server.getLogger().log(Level.SEVERE, msg, ex);
-+        in.bloodred.sakura.sentry.SentryContext.removePluginContext(); // Pufferfish
++        in.bloodred.scatter.sentry.SentryContext.removePluginContext(); // Pufferfish
          callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerPluginEnableDisableException(msg, ex, plugin)));
      }
      // Paper end
@@ -201,11 +201,11 @@ index 003bece642b682985625db93cad93026352bfc66..e8ba4f1108f2548a487877027e37d81f
                              ));
                  }
              } catch (Throwable ex) {
-+                in.bloodred.sakura.sentry.SentryContext.setEventContext(event, registration); // Pufferfish
++                in.bloodred.scatter.sentry.SentryContext.setEventContext(event, registration); // Pufferfish
                  // Paper start - error reporting
                  String msg = "Could not pass event " + event.getEventName() + " to " + registration.getPlugin().getDescription().getFullName();
                  server.getLogger().log(Level.SEVERE, msg, ex);
-+                in.bloodred.sakura.sentry.SentryContext.removeEventContext(); // Pufferfish
++                in.bloodred.scatter.sentry.SentryContext.removeEventContext(); // Pufferfish
                  if (!(event instanceof com.destroystokyo.paper.event.server.ServerExceptionEvent)) { // We don't want to cause an endless event loop
                      callEvent(new com.destroystokyo.paper.event.server.ServerExceptionEvent(new com.destroystokyo.paper.exception.ServerEventException(msg, ex, registration.getPlugin(), registration.getListener(), event)));
                  }
@@ -217,9 +217,9 @@ index eaefbb00e9993d54906cc8cf35cf753c0d6c7707..301e82369603f3dd6e6c1bd380da4bac
              try {
                  jPlugin.setEnabled(true);
              } catch (Throwable ex) {
-+                in.bloodred.sakura.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
++                in.bloodred.scatter.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
                  server.getLogger().log(Level.SEVERE, "Error occurred while enabling " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
-+                in.bloodred.sakura.sentry.SentryContext.removePluginContext(); // Pufferfish
++                in.bloodred.scatter.sentry.SentryContext.removePluginContext(); // Pufferfish
 +                // Paper start - Disable plugins that fail to load
 +                this.server.getPluginManager().disablePlugin(jPlugin);
 +                return;
@@ -231,9 +231,9 @@ index eaefbb00e9993d54906cc8cf35cf753c0d6c7707..301e82369603f3dd6e6c1bd380da4bac
              try {
                  jPlugin.setEnabled(false);
              } catch (Throwable ex) {
-+                in.bloodred.sakura.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
++                in.bloodred.scatter.sentry.SentryContext.setPluginContext(plugin); // Pufferfish
                  server.getLogger().log(Level.SEVERE, "Error occurred while disabling " + plugin.getDescription().getFullName() + " (Is it up to date?)", ex);
-+                in.bloodred.sakura.sentry.SentryContext.removePluginContext(); // Pufferfish
++                in.bloodred.scatter.sentry.SentryContext.removePluginContext(); // Pufferfish
              }
  
              if (cloader instanceof PluginClassLoader) {
