@@ -9,6 +9,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "0.7.0"
 }
 
-rootProject.name = "sakura"
+rootProject.name = "scatter"
 
-include("sakura-api", "sakura-server")
+include("scatter-api", "scatter-server")
