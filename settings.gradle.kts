@@ -12,3 +12,4 @@ plugins {
 rootProject.name = "scatter"
 
 include("scatter-api", "scatter-server")
+
