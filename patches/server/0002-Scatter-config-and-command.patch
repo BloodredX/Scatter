@@ -36,7 +36,7 @@ index 7620c72a4c243cbeea245203ce03a97cbfa7d922..b35a9f4c5f8960864c402ede8a51fb5a
          ));
  
          new TimingsExport(listeners, parent, history).start();
-diff --git a/src/main/java/in/bloodred/sakura/SakuraCommand.java b/src/main/java/in/bloodred/scatter/ScatterCommand.java
+diff --git a/src/main/java/in/bloodred/scatter/ScatterCommand.java b/src/main/java/in/bloodred/scatter/ScatterCommand.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f74732f4ab6ea
 --- /dev/null
@@ -94,7 +94,7 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +        if (args[0].equalsIgnoreCase("reload")) {
 +            MinecraftServer console = MinecraftServer.getServer();
 +            try {
-+                SakuraConfig.load();
++                ScatterConfig.load();
 +            } catch (IOException e) {
 +                sender.sendMessage(Component.text("Failed to reload.", NamedTextColor.RED));
 +                e.printStackTrace();
