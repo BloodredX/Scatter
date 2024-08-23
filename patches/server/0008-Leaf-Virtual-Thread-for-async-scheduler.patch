@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: BloodredX <bloodred.xhamster@gmail.com>
+Date: Mon, 6 May 2024 16:29:37 +0400
+Subject: [PATCH] Leaf: Virtual Thread for async scheduler
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
+index 3c1992e212a6d6f1db4d5b807b38d71913619fc0..de11ef56b071a7b09d41c05b49474e5170131538 100644
+--- a/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
++++ b/src/main/java/org/bukkit/craftbukkit/scheduler/CraftAsyncScheduler.java
+@@ -26,6 +26,7 @@ package org.bukkit.craftbukkit.scheduler;
+ import com.destroystokyo.paper.ServerSchedulerReportingWrapper;
+ import com.google.common.util.concurrent.ThreadFactoryBuilder;
+ import org.bukkit.plugin.Plugin;
++import in.bloodred.scatter.ScatterConfig;
+ 
+ import java.util.ArrayList;
+ import java.util.Iterator;
+@@ -38,17 +39,29 @@ import java.util.concurrent.TimeUnit;
+ 
+ public class CraftAsyncScheduler extends CraftScheduler {
+ 
+-    private final ThreadPoolExecutor executor = new ThreadPoolExecutor(
+-            4, Integer.MAX_VALUE,30L, TimeUnit.SECONDS, new SynchronousQueue<>(),
+-            new ThreadFactoryBuilder().setNameFormat("Craft Scheduler Thread - %1$d").build());
++    private final org.apache.logging.log4j.Logger LOGGER = org.apache.logging.log4j.LogManager.getLogger(getClass().getName()); // Leaf - Class logger
++    private final Executor executor; // Leaf - use super class
+     private final Executor management = Executors.newSingleThreadExecutor(new ThreadFactoryBuilder()
+             .setNameFormat("Craft Async Scheduler Management Thread").build());
+     private final List<CraftTask> temp = new ArrayList<>();
+ 
+     CraftAsyncScheduler() {
+         super(true);
+-        executor.allowCoreThreadTimeOut(true);
+-        executor.prestartAllCoreThreads();
++        // Leaf start - Ability to use Virtual Thread for async scheduler
++        if (ScatterConfig.useVirtualThreadforAsyncScheduler) {
++            executor = Executors.newThreadPerTaskExecutor(Thread.ofVirtual().name("Craft Scheduler Thread - ", 0).factory());
++            return;
++        }
++
++        executor = new ThreadPoolExecutor(
++                4, Integer.MAX_VALUE, 30L, TimeUnit.SECONDS, new SynchronousQueue<>(),
++                new ThreadFactoryBuilder().setNameFormat("Craft Scheduler Thread - %1$d").setUncaughtExceptionHandler(new net.minecraft.DefaultUncaughtExceptionHandlerWithName(net.minecraft.server.MinecraftServer.LOGGER)).build());
++
++        var threadPoolExecutor = (ThreadPoolExecutor) executor;
++
++        threadPoolExecutor.allowCoreThreadTimeOut(true);
++        threadPoolExecutor.prestartAllCoreThreads();
++        // Leaf end - Ability to use Virtual Thread for async scheduler
+     }
+ 
+     @Override
+diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
+index 481a35b01587831d991d0db0f762729583cc8569..82bc6b36d5ec5ae30730e2c1cdd1c402d6c57f24 100644
+--- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
++++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
+@@ -171,4 +171,10 @@ public class ScatterConfig {
+				 "but is provided as a configuration option if the vanilla deviation is undesirable.");
+    }
++
++    public static boolean useVirtualThreadforAsyncScheduler = false;
++    private static void useVirtualThreadforAsyncScheduler() {
++        useVirtualThreadforAsyncScheduler = getBoolean("performance.use-virtual-thread-for-async-scheduler", useVirtualThreadforAsyncScheduler,
++                "Use the new Virtual Thread introduced in JDK 21 for CraftAsyncScheduler.");
++    }
++    
+ }
