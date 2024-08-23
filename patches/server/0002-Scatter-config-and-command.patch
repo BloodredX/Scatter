@@ -60,7 +60,7 @@ index 0000000000000000000000000000000000000000..020368da69b9a492155f6de6297f7473
 +
 +public class ScatterCommand extends Command {
 +
-+    public SakuraCommand() {
++    public ScatterCommand() {
 +        super("scatter");
 +        this.description = "Scatter related commands";
 +        this.usageMessage = "/scatter [reload | version]";
@@ -132,7 +132,7 @@ index 0000000000000000000000000000000000000000..deb52c185705c4b4186c7bae02f2a827
 +import org.simpleyaml.configuration.file.YamlFile;
 +import org.simpleyaml.exceptions.InvalidConfigurationException;
 +
-+public class SakuraConfig {
++public class ScatterConfig {
 +	
 +	private static final YamlFile config = new YamlFile();
 +	private static int updates = 0;
