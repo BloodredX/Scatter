@@ -16,7 +16,7 @@ index 3c1992e212a6d6f1db4d5b807b38d71913619fc0..de11ef56b071a7b09d41c05b49474e51
  
  import java.util.ArrayList;
  import java.util.Iterator;
-@@ -38,17 +39,29 @@ import java.util.concurrent.TimeUnit;
+@@ -38,17 +38,30 @@ import java.util.concurrent.TimeUnit;
  
  public class CraftAsyncScheduler extends CraftScheduler {
  
