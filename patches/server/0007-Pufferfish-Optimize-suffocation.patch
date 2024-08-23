@@ -20,17 +20,16 @@ diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/jav
 index 5b7fe3d6c2169d07b79a0937e889fc847962fdfe..a047bcbb9aa47d094f3daeed6708b1918b4904de 100644
 --- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-@@ -163,4 +163,13 @@ public class ScatterConfig {
+@@ -163,4 +163,12 @@ public class ScatterConfig {
  		}
  	}
  	
 +	public static boolean enableSuffocationOptimization;
 +	private static void suffocationOptimization() {
 +		enableSuffocationOptimization = getBoolean("peformance.optimize-suffocation", true,
-+				"Optimizes the suffocation check by selectively skipping",
-+				"the check in a way that still appears vanilla. This should",
-+				"be left enabled on most servers, but is provided as a",
-+				"configuration option if the vanilla deviation is undesirable.");
++				"Optimizes the suffocation check by selectively skipping the check in a way that still appears vanilla.",
++				"This should be left enabled on most servers,",
++				"but is provided as a configuration option if the vanilla deviation is undesirable.");
 +	}
 +	
  }
