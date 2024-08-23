@@ -3,3 +3,4 @@
 # Scatter
 
 ### A fork of PaperMC which aims to get more performance and optimization.
+- in development
