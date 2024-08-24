@@ -15,10 +15,10 @@ jobs:
         run: git config --global user.email "action@github.com" && git config --global user.name "Github Action"
       - name: Apply patches
         run: ./gradlew applyPatches --stacktrace
-      - name: Mojmap Build
-        run: ./gradlew createMojmapPaperclipJar --stacktrace
+      - name: Reobf Build
+        run: ./gradlew createReobfPaperclipJar --stacktrace
       - name: Renaming
-        run: mv build/libs/scatter-paperclip-1.21.1-R0.1-SNAPSHOT-mojmap.jar ./Scatter-1.21.1.jar
+        run: mv build/libs/scatter-paperclip-1.21.1-R0.1-SNAPSHOT-reobf.jar ./Scatter-1.21.1.jar
       - name: Result
         uses: actions/upload-artifact@main
         with:
