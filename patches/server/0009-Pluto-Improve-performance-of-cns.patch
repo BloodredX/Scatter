@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: Yive <6853318+Yive@users.noreply.github.com>
+Date: Sun, 8 Jan 2023 08:12:37 -0800
+Subject: [PATCH] Pluto: Improve performance of custom name setting
+
+Removes the regex for links when applying a custom name to an entity.
+This can be a huge performance boost for certain plugins.
+
+diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
+index 481a35b01587831d991d0db0f762729583cc8569..82bc6b36d5ec5ae30730e2c1cdd1c402d6c57f24 100644
+--- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
++++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
+@@ -171,4 +171,10 @@ public class ScatterConfig {
+				 "but is provided as a configuration option if the vanilla deviation is undesirable.");
+    }
++
++        public boolean useCustomNameOptimisation = true;
++        private void shouldUseCustomNameOptimisation() {
++            useCustomNameOptimisation = getBoolean("performance.use-custom-name-api-optimisation", useCustomNameOptimisation, "Removed regex for link detection to improve performance when setting custom names.", "Directly sets the custom name without additional processing if optimization is enabled.", "Simplifies the custom name handling code path for better efficiency.");
++        }
++         
+}
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
+index cd789c235acf740ec29c30b180e7fbe1a140caa9..867c2a3d32f907f6c96979b13a222db6759367e7 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftEntity.java
+@@ -648,6 +648,13 @@ public abstract class CraftEntity implements org.bukkit.entity.Entity {
+             name = name.substring(0, 256);
+         }
+ 
++        // Pluto start - Improve performance of custom name setting
++        if (in.bloodred.scatter.ScatterConfig.useCustomNameOptimisation) {
++            this.getHandle().setCustomName(CraftChatMessage.fromStringOrNull(name, false, true));
++            return;
++        }
++        // Pluto end - Improve performance of custom name setting
++
+         this.getHandle().setCustomName(CraftChatMessage.fromStringOrNull(name));
+     }
+ 
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
+index 3a550f2bd1366ae89c69a0527404b0449e6d9cf7..9568e876040272f6c38bb1422a1ec5a21bcbb5c0 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/CraftChatMessage.java
+@@ -43,7 +43,10 @@ public final class CraftChatMessage {
+         return ChatColor.getByChar(format.code);
+     }
+ 
++    public static Component fromStringOrNull(String message, boolean keepNewlines, boolean noLinks) { return (message == null || message.isEmpty()) ? null : noLinks ? new StringMessage(message, keepNewlines, false, true).getOutput()[0] : CraftChatMessage.fromString(message, keepNewlines)[0]; } // Pluto end - Improve performance of custom name setting
++
+     private static final class StringMessage {
++        private static final Pattern INCREMENTAL_PATTERN_NO_LINKS = Pattern.compile("(" + ChatColor.COLOR_CHAR + "[0-9a-fk-orx])|(\\n)", Pattern.CASE_INSENSITIVE); // Pluto - Improve performance of custom name setting
+         private static final Pattern INCREMENTAL_PATTERN = Pattern.compile("(" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + "[0-9a-fk-orx])|((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + " \\n]|$))))|(\\n)", Pattern.CASE_INSENSITIVE);
+         // Separate pattern with no group 3, new lines are part of previous string
+         private static final Pattern INCREMENTAL_PATTERN_KEEP_NEWLINES = Pattern.compile("(" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + "[0-9a-fk-orx])|((?:(?:https?):\\/\\/)?(?:[-\\w_\\.]{2,}\\.[a-z]{2,4}.*?(?=[\\.\\?!,;:]?(?:[" + String.valueOf(org.bukkit.ChatColor.COLOR_CHAR) + " ]|$))))", Pattern.CASE_INSENSITIVE);
+@@ -60,6 +63,12 @@ public final class CraftChatMessage {
+         private final String message;
+ 
+         private StringMessage(String message, boolean keepNewlines, boolean plain) {
++        // Pluto start - Improve performance of custom name setting
++            this(message, keepNewlines, plain, false);
++        }
++
++        private StringMessage(String message, boolean keepNewlines, boolean plain, boolean noLinks) {
++        // Pluto end - Improve performance of custom name setting
+             this.message = message;
+             if (message == null) {
+                 this.output = new Component[]{this.currentChatComponent};
+@@ -67,7 +76,7 @@ public final class CraftChatMessage {
+             }
+             this.list.add(this.currentChatComponent);
+ 
+-            Matcher matcher = (keepNewlines ? StringMessage.INCREMENTAL_PATTERN_KEEP_NEWLINES : StringMessage.INCREMENTAL_PATTERN).matcher(message);
++            Matcher matcher = (noLinks ? StringMessage.INCREMENTAL_PATTERN_NO_LINKS : keepNewlines ? StringMessage.INCREMENTAL_PATTERN_KEEP_NEWLINES : StringMessage.INCREMENTAL_PATTERN).matcher(message); // Pluto - Improve performance of custom name setting
+             String match = null;
+             boolean needsAdd = false;
+             boolean hasReset = false; // Paper - Improve Legacy Component serialization size
