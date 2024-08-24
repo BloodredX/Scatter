@@ -115,7 +115,7 @@ new file mode 100644
 index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227643998c5
 --- /dev/null
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-@@ -0,0 +1,146 @@
+@@ -0,0 +1,162 @@
 +package in.bloodred.scatter;
 +
 +import java.io.File;
@@ -259,6 +259,14 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +		if (sentryDsn != null && !sentryDsn.isBlank()) {
 +			in.bloodred.scatter.sentry.SentryManager.init();
 +		}
++	}
++ 	
++	public static boolean enableSuffocationOptimization;
++	private static void suffocationOptimization() {
++		enableSuffocationOptimization = getBoolean("peformance.optimize-suffocation", true,
++				"Optimizes the suffocation check by selectively skipping the check in a way that still appears vanilla.",
++				"This should be left enabled on most servers,",
++				"but is provided as a configuration option if the vanilla deviation is undesirable.");
 +	}
 + 	
 +	public static boolean enableSuffocationOptimization;
