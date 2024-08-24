@@ -5,7 +5,7 @@ Subject: [PATCH] Add Sentry
 
 
 diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-index d1a8bfb29817d2b73689713b4d5f04d7f2c0eaf4..5b7fe3d6c2169d07b79a0937e889fc847962fdfe 100644
+index 970a1b160ce462b28e3714936d6b6227643998c5..5b7fe3d6c2169d07b79a0937e889fc847962fdfe 100644
 --- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 @@ -152,4 +152,15 @@ public class ScatterConfig {
