@@ -260,8 +260,16 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +			in.bloodred.scatter.sentry.SentryManager.init();
 +		}
 +	}
++ 	
++	public static boolean enableSuffocationOptimization;
++	private static void suffocationOptimization() {
++		enableSuffocationOptimization = getBoolean("peformance.optimize-suffocation", true,
++				"Optimizes the suffocation check by selectively skipping the check in a way that still appears vanilla.",
++				"This should be left enabled on most servers,",
++				"but is provided as a configuration option if the vanilla deviation is undesirable.");
++	}
 +	
-+}
++ }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 index dd56c8e041116ef3602a9f89c998c8208ab89b51..fb57a87d3d1e77da8fa2fba5298f7f651a0c83e0 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
