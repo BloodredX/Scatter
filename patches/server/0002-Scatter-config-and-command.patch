@@ -115,7 +115,7 @@ new file mode 100644
 index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227643998c5
 --- /dev/null
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-@@ -0,0 +1,135 @@
+@@ -0,0 +1,146 @@
 +package in.bloodred.scatter;
 +
 +import java.io.File;
@@ -248,6 +248,17 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +	private static List<String> getStringList(String key, @Nullable String oldKey, List<String> defaultValue, String... comment) {
 +		ensureDefault(key, defaultValue, comment);
 +		return config.getStringList(key);
++	}
++ 	
++	public static String sentryDsn;
++	private static void sentry() {
++		String sentryEnvironment = System.getenv("SENTRY_DSN");
++		String sentryConfig = getString("sentry-dsn", "", "Sentry DSN for improved error logging, leave blank to disable", "Obtain from https://sentry.io/");
++		
++		sentryDsn = sentryEnvironment == null ? sentryConfig : sentryEnvironment;
++		if (sentryDsn != null && !sentryDsn.isBlank()) {
++			in.bloodred.scatter.sentry.SentryManager.init();
++		}
 +	}
 +	
 +}
