@@ -2,7 +2,7 @@ name: Build Scatter
 on: [ push, pull_request ]
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: namespace-profile-default
     steps:
       - uses: actions/checkout@v4
       - uses: gradle/wrapper-validation-action@v1
