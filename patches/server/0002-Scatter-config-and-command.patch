@@ -266,7 +266,15 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +		tpsCatchup = getBoolean("performance.tps-catchup", true,
 +				"If this setting is true,",
 +				"The server will run faster after a lag spike inan attempt to maintain 20 TPS.",
-+				"This option (defaults to true per (spigot/paper) can cause mobs to move fast after a lag spike.");
++				"This option (defaults to true per spigot/paper) can cause mobs to move fast after a lag spike.");
++	}
++ 	
++	public static boolean enableSheepOptimization;
++	private static void sheepOptimization() {
++		enableSheepOptimization = getBoolean("performance.optimize-sheep", true,
++				"This optimizes sheep color determination with efficient dye mixing logic.",
++				"It reduces overhead and boosts server performance.",
++				"This is also compatible with existing server setups.");
 +	}
 + 	
 +	public static boolean enableSuffocationOptimization;
