@@ -12,12 +12,12 @@ index 755a1afd0aa36b627b3c7327d6b88806498ba85b..035ea1e17a4fec2e94c5cee02cf7ffbe
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.9.18")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.9.18")
  
-+    // Sakura start
++    // Scatter start
 +    implementation("org.yaml:snakeyaml:1.32")
 +    implementation ("me.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {
 +        exclude(group="org.yaml", module="snakeyaml")
 +    }
-+    // Sakura end
++    // Scatter end
 +
      testImplementation("io.github.classgraph:classgraph:4.8.47") // Paper - mob goal test
      testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
@@ -271,7 +271,7 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 + 	
 +	public static boolean enableSuffocationOptimization;
 +	private static void suffocationOptimization() {
-+		enableSuffocationOptimization = getBoolean("peformance.optimize-suffocation", true,
++		enableSuffocationOptimization = getBoolean("performance.optimize-suffocation", true,
 +				"Optimizes the suffocation check by selectively skipping the check in a way that still appears vanilla.",
 +				"This should be left enabled on most servers,",
 +				"but is provided as a configuration option if the vanilla deviation is undesirable.");
