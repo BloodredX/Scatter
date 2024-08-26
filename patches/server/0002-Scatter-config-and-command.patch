@@ -102,7 +102,7 @@ index 0000000000000000000000000000000000000000..3ca03dd3a8980c6cb4f38de598885575
 +            }
 +            console.server.reloadCount++;
 +
-+            Command.broadcastCommandMessage(sender, prefix + "Sakura configuration has been reloaded.");
++            Command.broadcastCommandMessage(sender, prefix + "Scatter configuration has been reloaded.");
 +        } else if (args[0].equalsIgnoreCase("version")) {
 +            Command.broadcastCommandMessage(sender, prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
 +        }
@@ -269,12 +269,12 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +				"This option (defaults to true per spigot/paper) can cause mobs to move fast after a lag spike.");
 +	}
 + 	
-+	public static boolean enableSheepOptimization;
-+	private static void sheepOptimization() {
-+		enableSheepOptimization = getBoolean("performance.optimize-sheep", true,
-+				"This optimizes sheep color determination with efficient dye mixing logic.",
-+				"It reduces overhead and boosts server performance.",
-+				"This is also compatible with existing server setups.");
++	public static boolean enableBiomeManagerOptimization;
++	private static void biomeManagerOptimization() {
++		enableBiomeManagerOptimization = getBoolean("performance.optimize-biome-manager", true,
++				"This introduces efficient biome calculation logic.",
++				"It reduces server load by skipping unnecessary biome calculations.",
++				"This also Boosts performance using pre-computed offsets.");
 +	}
 + 	
 +	public static boolean enableSuffocationOptimization;
