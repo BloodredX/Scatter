@@ -274,8 +274,21 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +		enableBiomeManagerOptimization = getBoolean("performance.optimize-biome-manager", true,
 +				"This introduces efficient biome calculation logic.",
 +				"It reduces server load by skipping unnecessary biome calculations.",
-+				"This also Boosts performance using pre-computed offsets.");
++				"This also boosts performance using pre-computed offsets.");
 +	}
++ 	
++	public static String regionFormatTypeName;
++	public static int linearCompressionLevel;
++	public static boolean throwOnUnknownExtension;
++	public static int linearFlushFrequency;
++	private static void regionFormatVoid() {
++		regionFormatTypeName = getString("region-format-settings.format", "MCA","Available region formats: MCA, LINEAR");
++		linearCompressionLevel = getInt("region-format-settings.linear-compress-level", 1);
++		throwOnUnknownExtension = getBoolean("region-format-settings.throw-on-unknown-extension-detected", false);
++		regionFormatTypeName = getInt("region-format-settings.flush-interval-seconds", 5);
++  setComment("region-format-settings", "Linear is a region file format that uses ZSTD compression instead of ZLIB.", "This format saves about 50% of disk space.", "Read Documentation before using: https://github.com/xymb-endcrystalme/LinearRegionFileFormatTools", "Disclaimer: This is an experimental feature, there is potential risk to lose chunk data.", "So backup your server before switching to Linear.");
++	}
++ 
 + 	
 +	public static boolean enableSuffocationOptimization;
 +	private static void suffocationOptimization() {
