@@ -286,7 +286,7 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +		linearCompressionLevel = getInt("region-format-settings.linear-compress-level", 1);
 +		throwOnUnknownExtension = getBoolean("region-format-settings.throw-on-unknown-extension-detected", false);
 +		regionFormatTypeName = getInt("region-format-settings.flush-interval-seconds", 5);
-+		setComment("region-format-settings", "Linear is a region file format that uses ZSTD compression instead of ZLIB.", "This format saves about 50% of disk space.", "Read Documentation before using: https://github.com/xymb-endcrystalme/LinearRegionFileFormatTools", "Disclaimer: This is an experimental feature, there is potential risk to lose chunk data.", "So backup your server before switching to Linear.");
++		String rfsComment = setComment("region-format-settings", "Linear is a region file format that uses ZSTD compression instead of ZLIB.", "This format saves about 50% of disk space.", "Read Documentation before using: https://github.com/xymb-endcrystalme/LinearRegionFileFormatTools", "Disclaimer: This is an experimental feature, there is potential risk to lose chunk data.", "So backup your server before switching to Linear.");
 +	}
 + 
 + 	
