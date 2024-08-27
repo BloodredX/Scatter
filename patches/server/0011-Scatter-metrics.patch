@@ -1,0 +1,79 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: BloodredX <bloodred.xhamster@gmail.com>
+Date: Tur, 27 Aug 2024 13:47:57 GMT+5:30
+Subject: [PATCH] Scatter metrics
+
+License: GPL-3.0 (https://www.gnu.org/licenses/gpl-3.0.html)
+Gale - https://galemc.org
+
+diff --git a/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/scheduling/ChunkTaskScheduler.java b/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/scheduling/ChunkTaskScheduler.java
+index b1456c1ddf24b625c6caf41a9379d8c011e1c36c..be7a4e2fd8823925847949d33358d64d464ec79f 100644
+--- a/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/scheduling/ChunkTaskScheduler.java
++++ b/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/scheduling/ChunkTaskScheduler.java
+@@ -65,7 +65,7 @@ public final class ChunkTaskScheduler {
+ 
+     private static final Logger LOGGER = LogUtils.getClassLogger();
+ 
+-    static int newChunkSystemIOThreads;
++    public static int newChunkSystemIOThreads; // Scatter - metrics - chunk system IO threads - package-private -> public
+     static int newChunkSystemGenParallelism;
+     static int newChunkSystemGenPopulationParallelism;
+     static int newChunkSystemLoadParallelism;
+diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
+index 4b002e8b75d117b726b0de274a76d3596fce015b..7e1405d5e2b847b28b07cb94fcbf5dec78706e34 100644
+--- a/src/main/java/com/destroystokyo/paper/Metrics.java
++++ b/src/main/java/com/destroystokyo/paper/Metrics.java
+@@ -593,7 +593,7 @@ public class Metrics {
+             boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
+             // Only start Metrics, if it's enabled in the config
+             if (config.getBoolean("enabled", true)) {
+-                Metrics metrics = new Metrics("Paper", serverUUID, logFailedRequests, Bukkit.getLogger());
++                Metrics metrics = new Metrics("Scatter", serverUUID, logFailedRequests, Bukkit.getLogger()); // Scatter - branding changes - metrics
+ 
+                 metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
+                     String minecraftVersion = Bukkit.getVersion();
+@@ -603,20 +603,20 @@ public class Metrics {
+ 
+                 metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
+                 metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : "offline"));
+-                final String paperVersion;
++                final String scatterVersion; // Scatter - branding changes - metrics
+                 final String implVersion = org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion();
+                 if (implVersion != null) {
+                     final String buildOrHash = implVersion.substring(implVersion.lastIndexOf('-') + 1);
+-                    paperVersion = "git-Paper-%s-%s".formatted(Bukkit.getServer().getMinecraftVersion(), buildOrHash);
++                    scatterVersion = "git-Scatter-%s-%s".formatted(Bukkit.getServer().getMinecraftVersion(), buildOrHash); // Scatter - branding changes - metrics
+                 } else {
+-                    paperVersion = "unknown";
++                    scatterVersion = "unknown"; // Gale - branding changes - metrics
+                 }
+-                metrics.addCustomChart(new Metrics.SimplePie("paper_version", () -> paperVersion));
++                metrics.addCustomChart(new Metrics.SimplePie("scatter_version", () -> scatterVersion)); // Scatter - branding changes - metrics
+ 
+                 metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
+-                    Map<String, Map<String, Integer>> map = new HashMap<>();
++                    Map<String, Map<String, Integer>> map = new HashMap<>(2); // Scatter - metrics - reduce HashMap capacity
+                     String javaVersion = System.getProperty("java.version");
+-                    Map<String, Integer> entry = new HashMap<>();
++                    Map<String, Integer> entry = new HashMap<>(2); // Scatter - metrics - reduce HashMap capacity
+                     entry.put(javaVersion, 1);
+ 
+                     // http://openjdk.java.net/jeps/223
+@@ -645,7 +645,7 @@ public class Metrics {
+                 }));
+ 
+                 metrics.addCustomChart(new Metrics.DrilldownPie("legacy_plugins", () -> {
+-                    Map<String, Map<String, Integer>> map = new HashMap<>();
++                    Map<String, Map<String, Integer>> map = new HashMap<>(2); // Scatter - metrics - reduce HashMap capacity
+ 
+                     // count legacy plugins
+                     int legacy = 0;
+@@ -656,7 +656,7 @@ public class Metrics {
+                     }
+ 
+                     // insert real value as lower dimension
+-                    Map<String, Integer> entry = new HashMap<>();
++                    Map<String, Integer> entry = new HashMap<>(2); // Scatter - metrics - reduce HashMap capacity
+                     entry.put(String.valueOf(legacy), 1);
+ 
+                     // create buckets as higher dimension
