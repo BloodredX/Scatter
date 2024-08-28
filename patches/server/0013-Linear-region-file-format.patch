@@ -11,22 +11,6 @@ ZLIB.
 This format saves about 50% of disk space.
 Documentation: https://github.com/xymb-endcrystalme/LinearRegionFileFormatTools
 
-diff --git a/build.gradle.kts b/build.gradle.kts
-index 035ea1e17a4fec2e94c5cee02cf7ffbe88fd4ecf..57b524c602751e6b8be9052b15a7cee6e1447e7e 100644
---- a/build.gradle.kts
-+++ b/build.gradle.kts
-@@ -54,6 +54,11 @@ dependencies {
-     }
-     // Scatter end
- 
-+    // LinearPaper start
-+    implementation("com.github.luben:zstd-jni:1.5.6-3")
-+    implementation("org.lz4:lz4-java:1.8.0")
-+    // LinearPaper end
-+
-     testImplementation("io.github.classgraph:classgraph:4.8.47") // Paper - mob goal test
-     testImplementation("org.junit.jupiter:junit-jupiter:5.10.2")
-     testImplementation("org.hamcrest:hamcrest:2.2")
 diff --git a/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/ChunkSystemRegionFileStorage.java b/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/ChunkSystemRegionFileStorage.java
 index 73df26b27146bbad2106d57b22dd3c792ed3dd1d..d2f209dd61f4412478a4b8fbe3489787d30bf74b 100644
 --- a/src/main/java/ca/spottedleaf/moonrise/patches/chunk_system/io/ChunkSystemRegionFileStorage.java
