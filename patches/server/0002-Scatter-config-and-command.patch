@@ -1,6 +1,6 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: BloodredX <bloodred.xhamster@gmail.com>
-Date: Tue, 9 Nov 2021 13:53:53 -0500
+Date: Tue, 17 Aug 2024 13:53:53 -0500
 Subject: [PATCH] Scatter Config and Command
 
 
@@ -277,7 +277,7 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +				"This introduces efficient biome calculation logic.",
 +				"It reduces server load by skipping unnecessary biome calculations.",
 +				"This also boosts performance using pre-computed offsets.");
-+	}
++	} 
 + 	
 +	public static boolean enableSuffocationOptimization;
 +	private static void suffocationOptimization() {
