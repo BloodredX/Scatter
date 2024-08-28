@@ -8,7 +8,7 @@ diff --git a/build.gradle.kts b/build.gradle.kts
 index 755a1afd0aa36b627b3c7327d6b88806498ba85b..035ea1e17a4fec2e94c5cee02cf7ffbe88fd4ecf 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -47,6 +47,13 @@ dependencies {
+@@ -47,6 +47,15 @@ dependencies {
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.9.18")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.9.18")
  
@@ -17,6 +17,8 @@ index 755a1afd0aa36b627b3c7327d6b88806498ba85b..035ea1e17a4fec2e94c5cee02cf7ffbe
 +    implementation ("me.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {
 +        exclude(group="org.yaml", module="snakeyaml")
 +    }
++    implementation("com.github.luben:zstd-jni:1.5.6-3")
++    implementation("org.lz4:lz4-java:1.8.0")
 +    // Scatter end
 +
      testImplementation("io.github.classgraph:classgraph:4.8.47") // Paper - mob goal test
