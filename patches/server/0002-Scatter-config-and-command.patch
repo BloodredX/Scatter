@@ -277,7 +277,7 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +				"This introduces efficient biome calculation logic.",
 +				"It reduces server load by skipping unnecessary biome calculations.",
 +				"This also boosts performance using pre-computed offsets.");
-+	} 
++	}
 + 	
 +	public static boolean enableSuffocationOptimization;
 +	private static void suffocationOptimization() {
@@ -285,7 +285,7 @@ index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227
 +				"Optimizes the suffocation check by selectively skipping the check in a way that still appears vanilla.",
 +				"This should be left enabled on most servers,",
 +				"but is provided as a configuration option if the vanilla deviation is undesirable.");
-+    }
++	}
 +	
 + }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
