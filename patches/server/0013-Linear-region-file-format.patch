@@ -183,7 +183,7 @@ index 40689256711cc94a806ca1da346f4f62eda31526..7c4b81e97562bb158478c70dae082526
      private final it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet nonExistingRegionFiles = new it.unimi.dsi.fastutil.longs.LongLinkedOpenHashSet(MAX_NON_EXISTING_CACHE+1);
 +    // Leaf start - Linear region format
      private static String getRegionFileName(final int chunkX, final int chunkZ) {
-+        if (in.bloodred.scatter.ScatterConfig.regionFormatType == in.bloodred.scatter.region.EnumRegionFileExtension.LINEAR) {
++        if (in.bloodred.scatter.ScatterConfig.regionFormatType == "LINEAR") {
 +            return "r." + (chunkX >> REGION_SHIFT) + "." + (chunkZ >> REGION_SHIFT) + ".linear";
 +        }
          return "r." + (chunkX >> REGION_SHIFT) + "." + (chunkZ >> REGION_SHIFT) + ".mca";
