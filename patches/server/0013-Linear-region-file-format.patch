@@ -181,7 +181,7 @@ index eb0389ad86300665b6e057bcfa1d7c068dc6c6ab..66fadf8b6e01624272bcf303979687f9
          try (DataInputStream out = new DataInputStream(new java.io.BufferedInputStream(new InflaterInputStream(Files.newInputStream(file))))) {
              return NbtIo.read((java.io.DataInput) out);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 23917b903a978a3ac25c397080e92642f1674107..7c4b81e97562bb158478c70dae082526413cd534 100644
+index 40689256711cc94a806ca1da346f4f62eda31526..7c4b81e97562bb158478c70dae082526413cd534 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -21,7 +21,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
