@@ -117,7 +117,7 @@ new file mode 100644
 index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227643998c5
 --- /dev/null
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-@@ -0,0 +1,172 @@
+@@ -0,0 +1,170 @@
 +package in.bloodred.scatter;
 +
 +import java.io.File;
