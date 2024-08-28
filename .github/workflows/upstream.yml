@@ -1,4 +1,4 @@
-name: Upstream
+name: Upstream 24/7
 
 on:
   workflow_dispatch:
