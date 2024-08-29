@@ -1,5 +1,5 @@
 name: grab patches
-on: [pull_request]
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
