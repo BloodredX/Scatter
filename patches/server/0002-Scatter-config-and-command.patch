@@ -40,7 +40,7 @@ index 7620c72a4c243cbeea245203ce03a97cbfa7d922..b35a9f4c5f8960864c402ede8a51fb5a
          new TimingsExport(listeners, parent, history).start();
 diff --git a/src/main/java/in/bloodred/scatter/ScatterCommand.java b/src/main/java/in/bloodred/scatter/ScatterCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..3ca03dd3a8980c6cb4f38de5988855756f74f444
+index 0000000000000000000000000000000000000000..65067ae2590afc68cef5247c8739a569c21a0c93
 --- /dev/null
 +++ b/src/main/java/in/bloodred/scatter/ScatterCommand.java
 @@ -0,0 +1,68 @@
@@ -114,7 +114,7 @@ index 0000000000000000000000000000000000000000..3ca03dd3a8980c6cb4f38de598885575
 +}
 diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..970a1b160ce462b28e3714936d6b6227643998c5
+index 0000000000000000000000000000000000000000..bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25
 --- /dev/null
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 @@ -0,0 +1,170 @@
