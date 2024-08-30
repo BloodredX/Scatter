@@ -326,13 +326,11 @@ index bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25..9fee3326b5d41b3fd2b508331e042274
  
  public class ScatterConfig {
  	
-@@ -167,4 +168,37 @@ public class ScatterConfig {
+@@ -167,4 +168,35 @@ public class ScatterConfig {
  				"but is provided as a configuration option if the vanilla deviation is undesirable.");
  	}
  	
-+    @DoNotLoad
 +    private static final Logger logger = LogUtils.getLogger();
-+    @DoNotLoad
 +    public static EnumRegionFileExtension regionFormatType;
 +	public static String regionFormatTypeName;
 +    public static int linearCompressionLevel;
