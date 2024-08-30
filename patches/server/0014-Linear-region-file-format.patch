@@ -313,7 +313,7 @@ index 40689256711cc94a806ca1da346f4f62eda31526..f8a7522f2f71c3992f0e82a187cf98af
                      regionFile.flush();
                  } catch (final IOException ex) {
 diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-index bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25..9fee3326b5d41b3fd2b508331e04227430de046e 100644
+index bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25..6350c7ce1cc6508389e08ba2d893908c5776c100 100644
 --- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 @@ -13,6 +13,9 @@ import org.jetbrains.annotations.Nullable;
