@@ -165,7 +165,7 @@ index eb0389ad86300665b6e057bcfa1d7c068dc6c6ab..f67c3bd7ffd2ce74d7808b12e871b787
          try (DataInputStream out = new DataInputStream(new java.io.BufferedInputStream(new InflaterInputStream(Files.newInputStream(file))))) {
              return NbtIo.read((java.io.DataInput) out);
 diff --git a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
-index 40689256711cc94a806ca1da346f4f62eda31526..ec22c98e9fc8d51fafa13af6e2ef64bfcb637f76 100644
+index 40689256711cc94a806ca1da346f4f62eda31526..f8a7522f2f71c3992f0e82a187cf98af5691b24c 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/storage/RegionFileStorage.java
 @@ -21,7 +21,7 @@ public class RegionFileStorage implements AutoCloseable, ca.spottedleaf.moonrise
@@ -281,7 +281,7 @@ index 40689256711cc94a806ca1da346f4f62eda31526..ec22c98e9fc8d51fafa13af6e2ef64bf
      public void scanChunk(ChunkPos chunkPos, StreamTagVisitor scanner) throws IOException {
          // CraftBukkit start - SPIGOT-5680: There's no good reason to preemptively create files on read, save that for writing
 -        RegionFile regionfile = this.getRegionFile(chunkPos, true);
-+        in.bloodred.scatter.region.IRegionFile regionfile = this.getRegionFile(chunkPos, true)
++        in.bloodred.scatter.region.IRegionFile regionfile = this.getRegionFile(chunkPos, true);
          if (regionfile == null) {
              return;
          }
