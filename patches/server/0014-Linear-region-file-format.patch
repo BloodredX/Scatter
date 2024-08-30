@@ -313,13 +313,14 @@ index 40689256711cc94a806ca1da346f4f62eda31526..f8a7522f2f71c3992f0e82a187cf98af
                      regionFile.flush();
                  } catch (final IOException ex) {
 diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-index bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25..028295dff6aa31410acdbd0e0cecc0bda5e19484 100644
+index bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25..07b5ea4ce2c3ba86c2b7a474e56d36efe22c47e7 100644
 --- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-@@ -13,6 +13,7 @@ import org.jetbrains.annotations.Nullable;
+@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
  import org.simpleyaml.configuration.comments.CommentType;
  import org.simpleyaml.configuration.file.YamlFile;
  import org.simpleyaml.exceptions.InvalidConfigurationException;
++import org.slf4j.Logger;
 +import in.bloodred.scatter.region.EnumRegionFileExtension;
  
  public class ScatterConfig {
