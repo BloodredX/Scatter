@@ -313,7 +313,7 @@ index 40689256711cc94a806ca1da346f4f62eda31526..f8a7522f2f71c3992f0e82a187cf98af
                      regionFile.flush();
                  } catch (final IOException ex) {
 diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
-index bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25..6350c7ce1cc6508389e08ba2d893908c5776c100 100644
+index bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25..1e056bba3441443d2d1f69201265c1381835b49c 100644
 --- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
 +++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 @@ -13,6 +13,9 @@ import org.jetbrains.annotations.Nullable;
@@ -339,9 +339,9 @@ index bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25..6350c7ce1cc6508389e08ba2d893908c
 +	private static void linearFileFormatOption() {
 +		regionFormatTypeName = getString("region-format-settings" + ".region-format", "MCA",
 +                "Available region formats: MCA, LINEAR");
-+        linearCompressionLevel = getInt("region-format-settings" + ".linear-compress-level", 1);
-+        throwOnUnknownExtension = getBoolean("region-format-settings" + ".throw-on-unknown-extension-detected", false);
-+        linearFlushFrequency = getInt("region-format-settings" + ".flush-interval-seconds", 5);
++        linearCompressionLevel = getInt("region-format-settings" + ".linear-compress-level", 1, "Higher values save space but use more CPU.");
++        throwOnUnknownExtension = getBoolean("region-format-settings" + ".throw-on-unknown-extension-detected", false, "If true, throws an error on unknown file types");
++        linearFlushFrequency = getInt("region-format-settings" + ".flush-interval-seconds", 5, "Lower values increase safety but reduce performance.");
 +        setComment("region-format-settings", "Linear is a region file format that uses ZSTD compression instead of ZLIB.",
 +                "This format saves about 50% of disk space.",
 +                "Read Documentation before using: https://github.com/xymb-endcrystalme/LinearRegionFileFormatTools",
