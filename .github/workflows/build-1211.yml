@@ -1,5 +1,7 @@
-name: Build Scatter
-on: [ push, pull_request ]
+name: Scatter 1.21.1
+on:
+  push:
+    branches: [ "ver/1.21.1" ]
 jobs:
   build:
     runs-on: ubuntu-latest
