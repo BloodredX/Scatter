@@ -27,7 +27,9 @@ jobs:
       - name: Apply patches
         run: ./gradlew -Dorg.gradle.jvmargs="-Dgraal.CompilerConfiguration=enterprise -Dgraal.UsePriorityInlining=true -Dgraal.Vectorization=true -Dgraal.OptDuplication=true --add-modules jdk.incubator.vector" applyPatches --stacktrace --no-daemon
       - name: Check for updates
-        run: ./scripts/updateUpstream.sh
+        run: |
+         chmod +x ./scripts/updateUpstream.sh
+         ./scripts/updateUpstream.sh
 
       - name: Build Paperclip Jar
         run: ./gradlew -Dorg.gradle.jvmargs="-Dgraal.CompilerConfiguration=enterprise -Dgraal.UsePriorityInlining=true -Dgraal.Vectorization=true -Dgraal.OptDuplication=true --add-modules jdk.incubator.vector" createMojmapPaperclipJar --stacktrace --no-daemon
