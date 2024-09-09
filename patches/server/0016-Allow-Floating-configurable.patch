@@ -1,0 +1,66 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: BloodredX <bloodred.xhamster@gmail.com>
+Date: Sat, 7 Sep 2024 08:57:17 +0530
+Subject: [PATCH] Allow Floating configurable
+
+diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
+index 1e056bba3441443d2d1f69201265c1381835b49c..2b52dfdaa6ed72b0e1facd1243a67dd6b4871672 100644
+--- a/src/main/java/in/bloodred/scatter/ScatterConfig.java
++++ b/src/main/java/in/bloodred/scatter/ScatterConfig.java
+@@ -201,4 +201,16 @@ public class ScatterConfig {
+         }
+ 	}
+ 	
++	public static boolean disableFloatingTooLong;
++	public static boolean disableFloatingVehicleTooLong;
++	private static void allowFloating() {
++		disableFloatingTooLong = getBoolean("gameplay.allow-floating-too-long", false, "Enabling this makes player to float too long without kicking them",
++                "This option is good for Anarchy servers",
++                "Players may miss use it, Use it in your own risk");
++		disableFloatingVehicleTooLong = getBoolean("gameplay.allow-floating-vehicle-too-long", false, "Enabling this makes player to float in a vehicle too long without kicking them",
++                "This option is good for Anarchy servers",
++                "Players may miss use it, Use it in your own risk");
++	}
++	
++	
+  }
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 0614486f5fbdfdbe36304becd7939d67d3bb2ae7..bc1394fdf30ec45dfcea1b70250123309bf34f74 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -29,6 +29,7 @@ import java.util.function.Consumer;
+ import java.util.stream.Collectors;
+ import java.util.stream.Stream;
+ import javax.annotation.Nullable;
++import in.bloodred.scatter.ScatterConfig;
+ import net.minecraft.ChatFormatting;
+ import net.minecraft.Util;
+ import net.minecraft.advancements.AdvancementHolder;
+@@ -349,9 +350,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+         this.knownMovePacketCount = this.receivedMovePacketCount;
+         if (this.clientIsFloating && !this.player.isSleeping() && !this.player.isPassenger() && !this.player.isDeadOrDying()) {
+             if (++this.aboveGroundTickCount > this.getMaximumFlyingTicks(this.player)) {
++            	// Scatter - Allow floating
++            	if (!ScatterConfig.disableFloatingTooLong) {
+                 ServerGamePacketListenerImpl.LOGGER.warn("{} was kicked for floating too long!", this.player.getName().getString());
+                 this.disconnect(io.papermc.paper.configuration.GlobalConfiguration.get().messages.kick.flyingPlayer, org.bukkit.event.player.PlayerKickEvent.Cause.FLYING_PLAYER); // Paper - use configurable kick message & kick event cause
+                 return;
++                }
++                // Scatter end
+             }
+         } else {
+             this.clientIsFloating = false;
+@@ -368,9 +373,13 @@ public class ServerGamePacketListenerImpl extends ServerCommonPacketListenerImpl
+             this.vehicleLastGoodZ = this.lastVehicle.getZ();
+             if (this.clientVehicleIsFloating && this.lastVehicle.getControllingPassenger() == this.player) {
+                 if (++this.aboveGroundVehicleTickCount > this.getMaximumFlyingTicks(this.lastVehicle)) {
++                	// Scatter - Allow floating
++            	    if (!ScatterConfig.disableFloatingVehicleTooLong) {
+                     ServerGamePacketListenerImpl.LOGGER.warn("{} was kicked for floating a vehicle too long!", this.player.getName().getString());
+                     this.disconnect(io.papermc.paper.configuration.GlobalConfiguration.get().messages.kick.flyingVehicle, org.bukkit.event.player.PlayerKickEvent.Cause.FLYING_VEHICLE); // Paper - use configurable kick message & kick event cause
+                     return;
++                    }
++                    // Scatter end
+                 }
+             } else {
+                 this.clientVehicleIsFloating = false;
