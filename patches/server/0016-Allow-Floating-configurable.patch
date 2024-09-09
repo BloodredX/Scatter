@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: BloodredX <bloodred.xhamster@gmail.com>
 Date: Sat, 7 Sep 2024 08:57:17 +0530
-Subject: [PATCH] Allow Floating configurable
+Subject: [PATCH] Allow Floating configuration
 
 diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 index 1e056bba3441443d2d1f69201265c1381835b49c..2b52dfdaa6ed72b0e1facd1243a67dd6b4871672 100644
@@ -25,10 +25,10 @@ index 1e056bba3441443d2d1f69201265c1381835b49c..2b52dfdaa6ed72b0e1facd1243a67dd6
 +	
   }
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index b13057c0792067cc6b0abdf0d64a9be2cc9389a4..f9b12bd98fb2378aa146463e0bb54e1efa73d93f 100644
+index fcccf989c25f0a259b160c4ff7873f7009e64d14..bcefde5ff1baa879d9e90939bb5c7023df162f2c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -1,3631 +1,3636 @@
+@@ -1,3635 +1,3640 @@
 -package net.minecraft.server.network;
 -
 -import com.google.common.collect.Lists;
@@ -2746,8 +2746,12 @@ index b13057c0792067cc6b0abdf0d64a9be2cc9389a4..f9b12bd98fb2378aa146463e0bb54e1e
 -            return;
 -        }
 -        // CraftBukkit end
+-        // Paper start - Ensure that client receives chat packets in the same order that we add into the message signature cache
+-        synchronized (this.messageSignatureCache) {
 -        this.send(new ClientboundPlayerChatPacket(message.link().sender(), message.link().index(), message.signature(), message.signedBody().pack(this.messageSignatureCache), message.unsignedContent(), message.filterMask(), params));
 -        this.addPendingMessage(message);
+-        }
+-        // Paper end - Ensure that client receives chat packets in the same order that we add into the message signature cache
 -    }
 -
 -    public void sendDisguisedChatMessage(Component message, ChatType.Bound params) {
@@ -6382,8 +6386,12 @@ index b13057c0792067cc6b0abdf0d64a9be2cc9389a4..f9b12bd98fb2378aa146463e0bb54e1e
 +            return;
 +        }
 +        // CraftBukkit end
++        // Paper start - Ensure that client receives chat packets in the same order that we add into the message signature cache
++        synchronized (this.messageSignatureCache) {
 +        this.send(new ClientboundPlayerChatPacket(message.link().sender(), message.link().index(), message.signature(), message.signedBody().pack(this.messageSignatureCache), message.unsignedContent(), message.filterMask(), params));
 +        this.addPendingMessage(message);
++        }
++        // Paper end - Ensure that client receives chat packets in the same order that we add into the message signature cache
 +    }
 +
 +    public void sendDisguisedChatMessage(Component message, ChatType.Bound params) {
