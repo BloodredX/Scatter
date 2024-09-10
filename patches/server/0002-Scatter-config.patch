@@ -215,14 +215,14 @@ index 0000000000000000000000000000000000000000..bab063d5eeefb4ecff6e2cf0bfbc199c
 +	
 + }
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index dd56c8e041116ef3602a9f89c998c8208ab89b51..fb57a87d3d1e77da8fa2fba5298f7f651a0c83e0 100644
+index dd56c8e041116ef3602a9f89c998c8208ab89b51..3dd512c15843d1ab02f47e4bde82db3a905c7583 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -239,6 +239,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          this.server.spark.registerCommandBeforePlugins(this.server); // Paper - spark
          com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
-+        in.bloodred.scatter.ScatterConfig.load(); // Scatter
++        in.bloodred.scatter.ScatterConfig.load(); // Scatter -  Initialize config of scatter
  
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
