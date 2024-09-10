@@ -218,7 +218,7 @@ diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b
 index dd56c8e041116ef3602a9f89c998c8208ab89b51..fb57a87d3d1e77da8fa2fba5298f7f651a0c83e0 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -239,6 +239,8 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -239,6 +239,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          this.server.spark.registerCommandBeforePlugins(this.server); // Paper - spark
          com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
