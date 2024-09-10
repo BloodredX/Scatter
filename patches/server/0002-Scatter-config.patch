@@ -38,80 +38,6 @@ index 7620c72a4c243cbeea245203ce03a97cbfa7d922..b35a9f4c5f8960864c402ede8a51fb5a
          ));
  
          new TimingsExport(listeners, parent, history).start();
-diff --git a/src/main/java/in/bloodred/scatter/ScatterCommand.java b/src/main/java/in/bloodred/scatter/ScatterCommand.java
-new file mode 100644
-index 0000000000000000000000000000000000000000..65067ae2590afc68cef5247c8739a569c21a0c93
---- /dev/null
-+++ b/src/main/java/in/bloodred/scatter/ScatterCommand.java
-@@ -0,0 +1,68 @@
-+package in.bloodred.scatter;
-+
-+import java.io.IOException;
-+import java.util.Collections;
-+import java.util.List;
-+import java.util.stream.Collectors;
-+import java.util.stream.Stream;
-+import net.kyori.adventure.text.Component;
-+import net.kyori.adventure.text.format.NamedTextColor;
-+import net.md_5.bungee.api.ChatColor;
-+import net.minecraft.server.MinecraftServer;
-+import org.bukkit.Bukkit;
-+import org.bukkit.Location;
-+import org.bukkit.command.Command;
-+import org.bukkit.command.CommandSender;
-+
-+public class ScatterCommand extends Command {
-+
-+    public ScatterCommand() {
-+        super("scatter");
-+        this.description = "Scatter related commands";
-+        this.usageMessage = "/scatter [reload | version]";
-+        this.setPermission("bukkit.command.scatter");
-+    }
-+    
-+    public static void init() {
-+        MinecraftServer.getServer().server.getCommandMap().register("scatter", "scatter", new ScatterCommand());
-+    }
-+
-+    @Override
-+    public List<String> tabComplete(CommandSender sender, String alias, String[] args, Location location) throws IllegalArgumentException {
-+        if (args.length == 1) {
-+            return Stream.of("reload", "version")
-+              .filter(arg -> arg.startsWith(args[0].toLowerCase()))
-+              .collect(Collectors.toList());
-+        }
-+        return Collections.emptyList();
-+    }
-+
-+    @Override
-+    public boolean execute(CommandSender sender, String commandLabel, String[] args) {
-+        if (!testPermission(sender)) return true;
-+        String prefix = ChatColor.of("#ffb7c5") + "" + ChatColor.BOLD + "Sakura » " + ChatColor.of("#448ee4");
-+
-+        if (args.length != 1) {
-+            sender.sendMessage(prefix + "Usage: " + usageMessage);
-+            args = new String[]{"version"};
-+        }
-+
-+        if (args[0].equalsIgnoreCase("reload")) {
-+            MinecraftServer console = MinecraftServer.getServer();
-+            try {
-+                ScatterConfig.load();
-+            } catch (IOException e) {
-+                sender.sendMessage(Component.text("Failed to reload.", NamedTextColor.RED));
-+                e.printStackTrace();
-+                return true;
-+            }
-+            console.server.reloadCount++;
-+
-+            Command.broadcastCommandMessage(sender, prefix + "Scatter configuration has been reloaded.");
-+        } else if (args[0].equalsIgnoreCase("version")) {
-+            Command.broadcastCommandMessage(sender, prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ")");
-+        }
-+
-+        return true;
-+    }
-+}
 diff --git a/src/main/java/in/bloodred/scatter/ScatterConfig.java b/src/main/java/in/bloodred/scatter/ScatterConfig.java
 new file mode 100644
 index 0000000000000000000000000000000000000000..bab063d5eeefb4ecff6e2cf0bfbc199c39ffaf25
@@ -297,7 +223,6 @@ index dd56c8e041116ef3602a9f89c998c8208ab89b51..fb57a87d3d1e77da8fa2fba5298f7f65
          com.destroystokyo.paper.Metrics.PaperMetrics.startMetrics(); // Paper - start metrics
          com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // Paper - load version history now
 +        in.bloodred.scatter.ScatterConfig.load(); // Scatter
-+        in.bloodred.scatter.ScatterCommand.init(); // Scatter
  
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
